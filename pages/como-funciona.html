@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Como as IAs Funcionam — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<style>
+.how-grid { padding:2rem 5vw 5rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.2rem; }
+.how-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.8rem; transition:border-color .25s; }
+.how-card:hover { border-color:var(--accent3); }
+.how-num { font-family:'Space Mono',monospace; font-size:2rem; font-weight:700; color:var(--border); margin-bottom:.7rem; letter-spacing:-.03em; }
+.how-card h3 { font-size:1rem; font-weight:700; margin-bottom:.5rem; }
+.how-card p { color:var(--muted); font-size:.85rem; line-height:1.65; }
+.arch-diagram { margin:0 5vw 4rem; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; }
+.arch-diagram h3 { font-size:1.1rem; font-weight:800; margin-bottom:1.5rem; }
+.arch-steps { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; }
+.arch-step { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:.8rem 1.2rem; font-size:.85rem; font-weight:700; text-align:center; flex:1; min-width:100px; }
+.arch-arrow { color:var(--accent); font-size:1.2rem; flex-shrink:0; }
+@media(max-width:500px){ .arch-arrow { display:none; } }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li><li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li><li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li><li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li><li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / Como Funciona</p>
+    <h1>⚙️ Como as IAs Funcionam?</h1>
+    <p>Por baixo do capô: os mecanismos que fazem os modelos modernos pensar, criar e resolver problemas.</p>
+  </div>
+
+  <div class="arch-diagram">
+    <h3>🔄 Fluxo de uma resposta de IA</h3>
+    <div class="arch-steps">
+      <div class="arch-step">📝<br/>Você digita</div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">🔤<br/>Tokenização</div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">🧠<br/>Transformer processa</div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">📊<br/>Calcula probabilidades</div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">✍️<br/>Gera tokens</div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">💬<br/>Você lê</div>
+    </div>
+  </div>
+
+  <div class="how-grid">
+    <div class="how-card fade-in" data-delay="0"><div class="how-num">01</div><h3>Redes Neurais Artificiais</h3><p>Inspiradas no cérebro humano, são camadas de neurônios matemáticos conectados. Cada conexão tem um peso ajustado durante o treino para melhorar as respostas.</p></div>
+    <div class="how-card fade-in" data-delay="80"><div class="how-num">02</div><h3>Treinamento com Dados</h3><p>Modelos são treinados em trilhões de palavras da internet, livros e código. O modelo aprende padrões estatísticos da linguagem — qual palavra provavelmente vem depois.</p></div>
+    <div class="how-card fade-in" data-delay="160"><div class="how-num">03</div><h3>Transformer & Atenção</h3><p>Arquitetura de 2017 que revolucionou tudo. O mecanismo de "atenção" permite entender o contexto de palavras distantes numa frase — não só as adjacentes.</p></div>
+    <div class="how-card fade-in" data-delay="240"><div class="how-num">04</div><h3>RLHF</h3><p>Reinforcement Learning from Human Feedback — humanos avaliam respostas e ensinam o modelo a ser mais útil e seguro. Assim ChatGPT, Claude e Gemini são "alinhados".</p></div>
+    <div class="how-card fade-in" data-delay="320"><div class="how-num">05</div><h3>Tokens & Probabilidade</h3><p>A IA não lê palavras — lê tokens (~4 caracteres). Para cada token, calcula probabilidades dos próximos possíveis e escolhe o mais adequado ao contexto.</p></div>
+    <div class="how-card fade-in" data-delay="400"><div class="how-num">06</div><h3>Modelos de Difusão</h3><p>Para imagens (Midjourney, DALL-E): começa com ruído aleatório e vai "limpando" gradualmente, guiado pelo texto, até criar uma imagem coerente.</p></div>
+    <div class="how-card fade-in" data-delay="480"><div class="how-num">07</div><h3>RAG</h3><p>Retrieval-Augmented Generation: a IA busca informações em documentos externos antes de responder, combinando recuperação de dados com geração de texto. Reduz alucinações.</p></div>
+    <div class="how-card fade-in" data-delay="560"><div class="how-num">08</div><h3>Fine-tuning</h3><p>Especializar um modelo genérico num domínio específico (medicina, direito, código) usando um conjunto menor de dados especializados. Mais barato que treinar do zero.</p></div>
+    <div class="how-card fade-in" data-delay="640"><div class="how-num">09</div><h3>Constitutional AI</h3><p>Método da Anthropic usado no Claude: a IA aprende um conjunto de princípios éticos e auto-avalia suas respostas com base nesses princípios antes de responder.</p></div>
+    <div class="how-card fade-in" data-delay="720"><div class="how-num">10</div><h3>Agentes Autônomos</h3><p>A IA mais moderna não só responde — age. Usa ferramentas, navega na web, escreve e executa código, e toma decisões sequenciais para alcançar um objetivo.</p></div>
+  </div>
+</div>
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p><a href="../index.html">← Voltar ao Início</a></p>
+</footer>
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>document.addEventListener('DOMContentLoaded', ()=>{ initObserver(); });</script>
+</body>
+</html>

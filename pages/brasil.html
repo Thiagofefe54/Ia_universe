@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>IAs Brasileiras — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<style>
+.br-grid { padding:2rem 5vw 5rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.2rem; }
+.br-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.6rem; transition:border-color .25s; position:relative; overflow:hidden; }
+.br-card:hover { border-color:#009c3b; }
+.br-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right,#009c3b,#ffdf00,#002776); }
+.br-flag { font-size:1.5rem; margin-bottom:.7rem; }
+.br-card h3 { font-size:1rem; font-weight:800; margin-bottom:.25rem; }
+.br-origin { font-family:'Space Mono',monospace; font-size:.65rem; color:var(--muted); margin-bottom:.7rem; }
+.br-card p { color:var(--muted); font-size:.85rem; line-height:1.62; }
+.br-banner { margin:0 5vw 3rem; background:var(--card); border:1px solid #009c3b; border-radius:12px; padding:2rem; text-align:center; position:relative; overflow:hidden; }
+.br-banner::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right,#009c3b,#ffdf00,#002776); }
+.br-banner h2 { font-size:1.3rem; font-weight:800; margin-bottom:.5rem; }
+.br-banner p { color:var(--muted); font-size:.9rem; line-height:1.7; max-width:500px; margin:0 auto; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li><li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li><li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li><li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li><li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / IAs Brasileiras</p>
+    <h1>🇧🇷 IAs Brasileiras</h1>
+    <p>O Brasil também está na corrida da IA! Conheça os modelos e iniciativas desenvolvidas aqui.</p>
+  </div>
+
+  <div class="br-banner">
+    <h2>🌱 O Brasil na IA</h2>
+    <p>O Brasil é o maior mercado de IA da América Latina. Com pesquisadores de ponta em USP, Unicamp e UFMG, e empresas como Nubank e Itaú investindo bilhões, o país está construindo seu próprio ecossistema de IA.</p>
+  </div>
+
+  <div class="br-grid">
+    <div class="br-card"><div class="br-flag">🦜</div><h3>Sabiá-3 (Maritaca AI)</h3><div class="br-origin">Maritaca AI · USP / Unicamp</div><p>LLM brasileiro desenvolvido por pesquisadores de elite. Focado em PT-BR, supera modelos internacionais em benchmarks de língua portuguesa. Treinado com textos genuinamente brasileiros.</p></div>
+    <div class="br-card"><div class="br-flag">🤖</div><h3>BERTimbau</h3><div class="br-origin">NLP-USP · 2020</div><p>Versão do BERT treinada especificamente em corpus português do Brasil. Amplamente usada em pesquisa acadêmica, análise de sentimentos e processamento de linguagem natural em PT-BR.</p></div>
+    <div class="br-card"><div class="br-flag">💼</div><h3>Cortex Intelligence</h3><div class="br-origin">Cortex · São Paulo</div><p>IA para inteligência de mercado e vendas B2B. Processa dados do mercado brasileiro para gerar insights de negócios. Usada por grandes empresas nacionais para prospecção.</p></div>
+    <div class="br-card"><div class="br-flag">🏦</div><h3>IAs dos Bancos Brasileiros</h3><div class="br-origin">Itaú, Nubank, Bradesco</div><p>Instituições financeiras lideram em IA para detecção de fraudes, análise de crédito e atendimento. Nubank tem um dos melhores times de ML da América Latina.</p></div>
+    <div class="br-card"><div class="br-flag">🌾</div><h3>IA no Agronegócio</h3><div class="br-origin">Embrapa · startups AgTech</div><p>O Brasil, maior exportador agrícola do mundo, usa IA para previsão de safras, pragas e otimização de recursos. A Embrapa lidera pesquisa em IA para agricultura tropical.</p></div>
+    <div class="br-card"><div class="br-flag">🏥</div><h3>IA na Saúde Brasileira</h3><div class="br-origin">HIAE · USP · startups</div><p>Einstein e hospitais brasileiros usam IA para diagnóstico por imagem, especialmente em câncer de mama e tuberculose, com performance comparable a especialistas humanos.</p></div>
+    <div class="br-card"><div class="br-flag">⚖️</div><h3>Victor (STF)</h3><div class="br-origin">STF · UnB · 2018</div><p>IA do Supremo Tribunal Federal que classifica automaticamente peças processuais e identifica temas constitucionais. Um dos projetos de IA jurídica mais avançados do mundo.</p></div>
+    <div class="br-card"><div class="br-flag">📚</div><h3>Comunidade Open Source BR</h3><div class="br-origin">GitHub · Discord · 2024</div><p>Comunidades brasileiras estão contribuindo com fine-tunings de Llama, Mistral e outros modelos para PT-BR. Datasets e modelos sendo construídos de forma colaborativa.</p></div>
+  </div>
+</div>
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p><a href="../index.html">← Voltar ao Início</a></p>
+</footer>
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

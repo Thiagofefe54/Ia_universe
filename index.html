@@ -1,825 +1,209 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Universe — O Universo das IAs</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #050810;
-      --surface: #0c1120;
-      --border: #1a2540;
-      --accent: #00e5ff;
-      --accent2: #ff6b35;
-      --accent3: #7c3aed;
-      --text: #e8edf5;
-      --muted: #6b7a99;
-      --card: #0e1828;
-      --modal-bg: rgba(5,8,16,0.95);
-    }
-    [data-theme="light"] {
-      --bg: #f0f4f8;
-      --surface: #ffffff;
-      --border: #d0dae8;
-      --accent: #0077cc;
-      --accent2: #e05a20;
-      --accent3: #6d28d9;
-      --text: #1a2540;
-      --muted: #5a6a88;
-      --card: #ffffff;
-      --modal-bg: rgba(240,244,248,0.97);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="AI Universe — Tudo sobre Inteligência Artificial em um lugar só."/>
+<title>AI Universe — O Universo das IAs</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* HERO */
+.hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:7rem 5vw 5rem; position:relative; z-index:1;
+}
+.hero-eyebrow { font-family:'Space Mono',monospace; font-size:.68rem; letter-spacing:.22em; color:var(--accent); margin-bottom:1.5rem; opacity:0; animation:fadeUp .8s .3s forwards; }
+.hero h1 { font-size:clamp(2.8rem,10vw,8rem); font-weight:800; line-height:.95; letter-spacing:-.03em; opacity:0; animation:fadeUp .8s .5s forwards; }
+.hero h1 .line2 { color:var(--accent); }
+.hero h1 .line3 { color:var(--accent2); font-style:italic; }
+.hero-sub { max-width:480px; margin:2rem auto 0; font-size:1rem; color:var(--muted); line-height:1.75; opacity:0; animation:fadeUp .8s .7s forwards; }
+.hero-cta { display:flex; gap:1rem; margin-top:2.5rem; justify-content:center; flex-wrap:wrap; opacity:0; animation:fadeUp .8s .9s forwards; }
+.scroll-hint { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:.4rem; color:var(--muted); font-family:'Space Mono',monospace; font-size:.6rem; letter-spacing:.1em; animation:bounce 2s infinite; }
+.scroll-hint::after { content:''; width:1px; height:32px; background:linear-gradient(to bottom,var(--muted),transparent); }
 
-    /* CANVAS */
-    #bg-canvas { position: fixed; inset: 0; z-index: 0; opacity: 0.3; pointer-events: none; }
+/* STATS */
+.stats-bar { border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:2rem 5vw; display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1.5rem; background:var(--surface); }
+.stat { text-align:center; }
+.stat-num { font-size:2rem; font-weight:800; color:var(--accent); display:block; }
+.stat-label { font-family:'Space Mono',monospace; font-size:.6rem; color:var(--muted); letter-spacing:.1em; margin-top:.2rem; display:block; }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 5vw;
-      backdrop-filter: blur(16px);
-      background: rgba(5,8,16,0.75);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s;
-    }
-    [data-theme="light"] nav { background: rgba(240,244,248,0.85); }
-    .nav-logo { font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; color: var(--accent); }
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.06em; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-right { display: flex; align-items: center; gap: 1rem; }
-    .theme-toggle {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); width: 36px; height: 36px; border-radius: 50%;
-      cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-    }
-    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-    .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; }
-    @media(max-width:700px) {
-      .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: 1.5rem 5vw; gap: 1.2rem; }
-      .nav-links.open { display: flex; }
-      .hamburger { display: block; }
-    }
+/* TOP IAS */
+.top-section { padding:5rem 5vw 2rem; }
+.top-section h2 { font-size:clamp(1.8rem,4vw,3rem); font-weight:800; letter-spacing:-.02em; }
+.top-section p { color:var(--muted); margin-top:.6rem; font-size:.92rem; line-height:1.7; }
+.top-grid { padding:2rem 5vw 4rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:1.2rem; }
 
-    /* SECTIONS */
-    section { position: relative; z-index: 1; }
+/* CATEGORIES NAV */
+.categories { padding:0 5vw 5rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; }
+.cat-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.8rem; text-decoration:none; color:var(--text); transition:all .25s; display:flex; align-items:flex-start; gap:1rem; position:relative; overflow:hidden; }
+.cat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--cat-color,var(--accent)); }
+.cat-card:hover { border-color:var(--cat-color,var(--accent)); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,.2); }
+.cat-icon { font-size:2rem; flex-shrink:0; }
+.cat-title { font-size:1rem; font-weight:800; margin-bottom:.3rem; }
+.cat-desc { font-size:.82rem; color:var(--muted); line-height:1.6; }
+.cat-arrow { margin-left:auto; color:var(--muted); font-size:1.2rem; align-self:center; flex-shrink:0; transition:transform .2s; }
+.cat-card:hover .cat-arrow { transform:translateX(4px); color:var(--cat-color,var(--accent)); }
 
-    /* HERO */
-    .hero {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 8rem 5vw 5rem;
-    }
-    .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
-    .hero h1 { font-size: clamp(2.8rem, 9vw, 8rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
-    .hero h1 span { color: var(--accent); }
-    .hero h1 em { font-style: normal; color: var(--accent2); }
-    .hero-sub { max-width: 520px; margin: 1.8rem auto 0; font-size: 1rem; color: var(--muted); line-height: 1.7; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
-    .hero-cta { display: flex; gap: 1rem; margin-top: 2.5rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
-    .btn { padding: 0.75rem 1.8rem; border-radius: 4px; font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.08em; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-block; }
-    .btn-primary { background: var(--accent); color: #000; border: none; font-weight: 700; }
-    .btn-primary:hover { background: var(--text); }
-    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: var(--muted); font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; animation: bounce 2s infinite; }
-    .scroll-hint::after { content: ''; width: 1px; height: 36px; background: linear-gradient(to bottom, var(--muted), transparent); }
+/* SECTION DIVIDER */
+.sec-divider { display:flex; align-items:center; gap:1.5rem; padding:0 5vw; margin:1rem 0; }
+.sec-divider-line { flex:1; height:1px; background:var(--border); }
+.sec-divider span { font-family:'Space Mono',monospace; font-size:.65rem; color:var(--muted); white-space:nowrap; letter-spacing:.1em; }
 
-    /* STATS */
-    .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem 5vw; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1.5rem; background: var(--surface); }
-    .stat { text-align: center; }
-    .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent); display: block; }
-    .stat-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; }
-
-    /* SECTION HEADER */
-    .section-header { padding: 5rem 5vw 2.5rem; }
-    .section-tag { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; color: var(--accent2); margin-bottom: 0.8rem; }
-    .section-header h2 { font-size: clamp(1.8rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
-    .section-header p { color: var(--muted); margin-top: 0.8rem; max-width: 500px; font-size: 0.95rem; line-height: 1.7; }
-
-    /* TIMELINE */
-    .timeline { padding: 0 5vw 5rem; position: relative; }
-    .timeline::before { content: ''; position: absolute; left: calc(5vw + 20px); top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--accent), transparent); }
-    .tl-item { display: flex; gap: 2rem; margin-bottom: 2.5rem; opacity: 0; transform: translateX(-30px); transition: all 0.6s; }
-    .tl-item.visible { opacity: 1; transform: translateX(0); }
-    .tl-dot { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; background: var(--card); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1; }
-    .tl-content { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem; flex: 1; transition: border-color 0.2s; }
-    .tl-content:hover { border-color: var(--accent); }
-    .tl-year { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
-    .tl-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .tl-content p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
-    @media(max-width:600px) { .timeline::before { display: none; } }
-
-    /* FILTER BAR */
-    .filter-bar { padding: 0 5vw 2rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
-    .filter-btn { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; padding: 0.45rem 1rem; border-radius: 4px; border: 1px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; transition: all 0.2s; }
-    .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,0.07); }
-    [data-theme="light"] .filter-btn:hover, [data-theme="light"] .filter-btn.active { background: rgba(0,119,204,0.07); }
-
-    /* AI CARDS */
-    .ai-grid { padding: 0 5vw 5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.4rem; }
-    .ai-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.6rem; position: relative; overflow: hidden; opacity: 0; transform: translateY(30px); transition: opacity 0.5s, transform 0.5s, border-color 0.3s, box-shadow 0.3s; cursor: pointer; }
-    .ai-card.visible { opacity: 1; transform: translateY(0); }
-    .ai-card:hover { border-color: var(--accent); box-shadow: 0 0 30px rgba(0,229,255,0.08); }
-    .ai-card.hidden { display: none; }
-    .ai-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--card-accent, var(--accent)); }
-    .ai-card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
-    .ai-icon { width: 46px; height: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; background: var(--surface); flex-shrink: 0; }
-    .ai-name { font-size: 1.1rem; font-weight: 800; }
-    .ai-maker { font-family: 'Space Mono', monospace; font-size: 0.67rem; color: var(--muted); margin-top: 0.1rem; }
-    .ai-rank { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); background: rgba(0,229,255,0.08); padding: 0.2rem 0.55rem; border-radius: 4px; white-space: nowrap; }
-    .ai-desc { color: var(--muted); font-size: 0.87rem; line-height: 1.65; margin-bottom: 1.1rem; }
-    .ai-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-    .tag { font-family: 'Space Mono', monospace; font-size: 0.62rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
-    .usage-bar { margin-top: 1rem; display: flex; align-items: center; gap: 0.8rem; }
-    .usage-bar-label { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--muted); white-space: nowrap; }
-    .bar-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; background: var(--card-accent, var(--accent)); border-radius: 2px; width: 0; transition: width 1.2s ease; }
-    .bar-pct { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--card-accent, var(--accent)); min-width: 28px; }
-    .card-click-hint { margin-top: 1rem; font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); opacity: 0.5; }
-
-    /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; z-index: 500; background: var(--modal-bg); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; max-width: 620px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 2.5rem; position: relative; transform: translateY(20px); transition: transform 0.3s; }
-    .modal-overlay.open .modal { transform: translateY(0); }
-    .modal-close { position: absolute; top: 1.2rem; right: 1.2rem; background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-    .modal-close:hover { border-color: var(--accent2); color: var(--accent2); }
-    .modal-header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; }
-    .modal-icon { width: 56px; height: 56px; border-radius: 12px; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
-    .modal-title { font-size: 1.5rem; font-weight: 800; }
-    .modal-subtitle { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
-    .modal-section { margin-bottom: 1.5rem; }
-    .modal-section h4 { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.8rem; }
-    .modal-section p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
-    .modal-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .pros, .cons { background: var(--surface); border-radius: 8px; padding: 1rem; }
-    .pros h5 { color: #4ade80; font-size: 0.8rem; margin-bottom: 0.6rem; }
-    .cons h5 { color: #f87171; font-size: 0.8rem; margin-bottom: 0.6rem; }
-    .pros li, .cons li { color: var(--muted); font-size: 0.82rem; line-height: 1.7; margin-left: 1rem; }
-    .modal-specs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.8rem; }
-    .spec-item { background: var(--surface); border-radius: 8px; padding: 0.8rem; }
-    .spec-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); margin-bottom: 0.3rem; letter-spacing: 0.08em; }
-    .spec-value { font-size: 0.9rem; font-weight: 700; color: var(--text); }
-
-    /* COMPARISON */
-    .comparison-wrapper { padding: 0 5vw 5rem; overflow-x: auto; }
-    .comparison-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-    .comparison-table th { background: var(--surface); padding: 1rem; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--muted); border-bottom: 1px solid var(--border); text-align: center; }
-    .comparison-table th:first-child { text-align: left; }
-    .comparison-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; text-align: center; background: var(--card); }
-    .comparison-table td:first-child { text-align: left; font-weight: 700; font-size: 0.9rem; }
-    .comparison-table tr:hover td { background: var(--surface); }
-    .score { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; }
-    .score-s { background: rgba(74,222,128,0.15); color: #4ade80; }
-    .score-a { background: rgba(0,229,255,0.12); color: var(--accent); }
-    .score-b { background: rgba(251,191,36,0.12); color: #fbbf24; }
-    .score-c { background: rgba(156,163,175,0.12); color: #9ca3af; }
-    .free-badge { background: rgba(74,222,128,0.12); color: #4ade80; border-radius: 4px; padding: 0.1rem 0.45rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; }
-    .paid-badge { background: rgba(251,191,36,0.12); color: #fbbf24; border-radius: 4px; padding: 0.1rem 0.45rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; }
-
-    /* BRAZILIAN AIs */
-    .br-grid { padding: 0 5vw 5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.4rem; }
-    .br-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.6rem; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s, border-color 0.3s; position: relative; overflow: hidden; }
-    .br-card.visible { opacity: 1; transform: translateY(0); }
-    .br-card:hover { border-color: #009c3b; }
-    .br-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, #009c3b, #ffdf00, #002776); }
-    .br-flag { font-size: 1.5rem; margin-bottom: 0.8rem; }
-    .br-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.3rem; }
-    .br-origin { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-bottom: 0.8rem; }
-    .br-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.65; }
-
-    /* HOW IT WORKS */
-    .how-grid { padding: 0 5vw 5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.4rem; }
-    .how-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s, border-color 0.3s; }
-    .how-card.visible { opacity: 1; transform: translateY(0); }
-    .how-card:hover { border-color: var(--accent3); }
-    .how-num { font-family: 'Space Mono', monospace; font-size: 2.2rem; font-weight: 700; color: var(--border); margin-bottom: 0.8rem; letter-spacing: -0.04em; }
-    .how-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .how-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.65; }
-
-    /* QUIZ */
-    .quiz-wrapper { padding: 0 5vw 5rem; }
-    .quiz-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; max-width: 680px; margin: 0 auto; }
-    .quiz-progress { display: flex; gap: 0.4rem; margin-bottom: 2rem; }
-    .quiz-progress-dot { flex: 1; height: 3px; background: var(--border); border-radius: 2px; transition: background 0.3s; }
-    .quiz-progress-dot.done { background: var(--accent); }
-    .quiz-q { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.4; }
-    .quiz-options { display: flex; flex-direction: column; gap: 0.8rem; }
-    .quiz-option { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; cursor: pointer; font-size: 0.92rem; text-align: left; color: var(--text); transition: all 0.2s; display: flex; align-items: center; gap: 0.8rem; }
-    .quiz-option:hover { border-color: var(--accent); color: var(--accent); }
-    .quiz-option.selected { border-color: var(--accent); background: rgba(0,229,255,0.07); color: var(--accent); }
-    [data-theme="light"] .quiz-option.selected { background: rgba(0,119,204,0.07); }
-    .quiz-option-icon { font-size: 1.2rem; }
-    .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.8rem; }
-    .quiz-step-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); }
-    .quiz-result { display: none; }
-    .quiz-result.show { display: block; }
-    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-top: 1rem; }
-    .result-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; }
-    .result-why { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-top: 0.8rem; }
-    .result-icon { font-size: 3rem; margin-bottom: 0.8rem; }
-    .quiz-restart { margin-top: 1.5rem; font-family: 'Space Mono', monospace; font-size: 0.75rem; background: none; border: 1px solid var(--border); color: var(--muted); padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
-    .quiz-restart:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* FOOTER */
-    footer { border-top: 1px solid var(--border); padding: 2.5rem 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; background: var(--surface); }
-    footer p { color: var(--muted); font-family: 'Space Mono', monospace; font-size: 0.68rem; }
-    footer span { color: var(--accent); }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
-
-    /* DIVIDER */
-    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-
-    /* SCROLLBAR */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  </style>
+/* HIGHLIGHT BANNER */
+.highlight { margin:0 5vw 5rem; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2.5rem; display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; position:relative; overflow:hidden; }
+.highlight::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right,var(--accent),var(--accent3),var(--accent2)); }
+.highlight-text h3 { font-size:1.3rem; font-weight:800; margin-bottom:.5rem; }
+.highlight-text p { color:var(--muted); font-size:.9rem; line-height:1.7; max-width:420px; }
+.highlight-btns { display:flex; gap:.8rem; flex-wrap:wrap; }
+</style>
 </head>
 <body>
-
 <canvas id="bg-canvas"></canvas>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-logo">AI_UNIVERSE</div>
+  <a href="index.html" class="nav-logo">AI_UNIVERSE</a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#historia">História</a></li>
-    <li><a href="#principais">IAs</a></li>
-    <li><a href="#comparacao">Comparar</a></li>
-    <li><a href="#brasil">Brasil</a></li>
-    <li><a href="#como-funciona">Como Funciona</a></li>
-    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="index.html">Início</a></li>
+    <li><a href="pages/ias.html">IAs</a></li>
+    <li><a href="pages/historia.html">História</a></li>
+    <li><a href="pages/comparar.html">Comparar</a></li>
+    <li><a href="pages/como-funciona.html">Como Funciona</a></li>
+    <li><a href="pages/quiz.html">Quiz</a></li>
+    <li><a href="pages/calculadora.html">Calculadora</a></li>
+    <li><a href="pages/glossario.html">Glossário</a></li>
   </ul>
   <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle" title="Trocar tema">🌙</button>
+    <button class="icon-btn" id="themeBtn">🌙</button>
     <button class="hamburger" id="hamburger">☰</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-eyebrow">// EXPLORANDO A INTELIGÊNCIA ARTIFICIAL</p>
-  <h1>O <span>Universo</span><br>das <em>IAs</em></h1>
-  <p class="hero-sub">Da primeira ideia em 1950 até os modelos que dominam o mundo hoje. Tudo sobre Inteligência Artificial em um lugar só.</p>
+  <p class="hero-eyebrow">// O UNIVERSO DA INTELIGÊNCIA ARTIFICIAL</p>
+  <h1>
+    <span class="line1">Explore</span><br>
+    <span class="line2">a IA</span><br>
+    <span class="line3">agora.</span>
+  </h1>
+  <p class="hero-sub">Mais de 20 IAs catalogadas, comparadas e explicadas. Do ChatGPT ao Llama, tudo que você precisa saber em um lugar só.</p>
   <div class="hero-cta">
-    <a href="#historia" class="btn btn-primary">Explorar</a>
-    <a href="#quiz" class="btn btn-secondary">Qual IA é pra mim?</a>
+    <a href="pages/ias.html" class="btn btn-primary">Ver todas as IAs →</a>
+    <a href="pages/quiz.html" class="btn btn-secondary">Qual IA é pra mim?</a>
   </div>
   <div class="scroll-hint">SCROLL</div>
 </section>
 
 <!-- STATS -->
 <div class="stats-bar">
+  <div class="stat"><span class="stat-num" data-target="20">0</span><span class="stat-label">IAS CATALOGADAS</span></div>
   <div class="stat"><span class="stat-num" data-target="75">0</span><span class="stat-label">ANOS DE HISTÓRIA</span></div>
-  <div class="stat"><span class="stat-num" data-target="500">0</span><span class="stat-label">MODELOS NO MERCADO</span></div>
-  <div class="stat"><span class="stat-num" data-target="1800">0</span><span class="stat-label">BILHÕES DE USUÁRIOS</span></div>
-  <div class="stat"><span class="stat-num" data-target="184">0</span><span class="stat-label">BILHÕES USD INVESTIDOS</span></div>
+  <div class="stat"><span class="stat-num" data-target="1800">0</span><span class="stat-label">BILHÕES USUÁRIOS</span></div>
+  <div class="stat"><span class="stat-num" data-target="184">0</span><span class="stat-label">BILHÕES USD INVEST.</span></div>
 </div>
 
-<!-- HISTÓRIA -->
-<section id="historia">
-  <div class="section-header">
-    <p class="section-tag">// 01 — LINHA DO TEMPO</p>
-    <h2>As Primeiras IAs<br>da História</h2>
-    <p>Tudo começou com uma pergunta simples: <em>"Máquinas podem pensar?"</em></p>
+<!-- TOP IAs -->
+<section style="position:relative;z-index:1;background:var(--surface);">
+  <div class="top-section">
+    <p style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--accent2);margin-bottom:.5rem;">// TOP PICKS</p>
+    <h2>As 4 Maiores IAs<br>do Momento</h2>
+    <p>As mais populares e poderosas. Clique para detalhes.</p>
   </div>
-  <div class="timeline">
-    <div class="tl-item"><div class="tl-dot">🧠</div><div class="tl-content"><p class="tl-year">1950</p><h3>Teste de Turing</h3><p>Alan Turing propõe o "Jogo da Imitação" — se uma máquina engana um humano numa conversa, ela pode ser considerada inteligente. A fundação de tudo.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">🔬</div><div class="tl-content"><p class="tl-year">1956</p><h3>Nasce o termo "Inteligência Artificial"</h3><p>John McCarthy cunha o termo na Conferência de Dartmouth. Pesquisadores se reúnem pela primeira vez com o objetivo de criar máquinas que pensam.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">💬</div><div class="tl-content"><p class="tl-year">1966</p><h3>ELIZA — O Primeiro Chatbot</h3><p>Joseph Weizenbaum cria o ELIZA no MIT. Ele simulava um psicoterapeuta. Muitos usuários acreditavam estar conversando com um humano real.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">♟️</div><div class="tl-content"><p class="tl-year">1997</p><h3>Deep Blue vence Kasparov</h3><p>O computador da IBM derrota o campeão mundial de xadrez. Primeiro marco público de IA superando humanos em uma tarefa complexa de raciocínio.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">🏆</div><div class="tl-content"><p class="tl-year">2011</p><h3>IBM Watson vence o Jeopardy!</h3><p>Watson compete contra os maiores campeões do programa americano e vence. Processamento de linguagem natural em escala real.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">👁️</div><div class="tl-content"><p class="tl-year">2012</p><h3>AlexNet — Revolução do Deep Learning</h3><p>A rede neural de Geoffrey Hinton domina o ImageNet. Abriu as portas para toda a visão computacional e IA moderna.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">🤖</div><div class="tl-content"><p class="tl-year">2017</p><h3>Transformer — A Arquitetura que Mudou Tudo</h3><p>Google publica "Attention is All You Need". O Transformer vira a base de praticamente todos os modelos modernos: GPT, Claude, Gemini.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">🎨</div><div class="tl-content"><p class="tl-year">2021</p><h3>DALL-E e GitHub Copilot</h3><p>IAs capazes de gerar imagens a partir de texto e completar código automaticamente chegam ao público. A IA começa a ser criativa.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">🚀</div><div class="tl-content"><p class="tl-year">2022</p><h3>ChatGPT — IA para o Mundo</h3><p>OpenAI lança o ChatGPT. Em 5 dias, 1 milhão de usuários. Em 2 meses, 100 milhões. A IA deixa o laboratório e entra na vida cotidiana.</p></div></div>
-    <div class="tl-item"><div class="tl-dot">⚡</div><div class="tl-content"><p class="tl-year">2024–2026</p><h3>Era dos Agentes</h3><p>IAs deixam de responder perguntas e passam a executar tarefas: navegar na web, escrever código completo, gerenciar arquivos e tomar decisões autônomas.</p></div></div>
+  <div class="top-grid" id="topGrid"></div>
+  <div style="text-align:center;padding:0 5vw 4rem;">
+    <a href="pages/ias.html" class="btn btn-secondary">Ver todas as 20+ IAs →</a>
   </div>
 </section>
 
-<hr class="divider" />
+<div class="sec-divider"><div class="sec-divider-line"></div><span>NAVEGUE POR SEÇÃO</span><div class="sec-divider-line"></div></div>
 
-<!-- PRINCIPAIS IAs -->
-<section id="principais" style="background: var(--surface);">
-  <div class="section-header">
-    <p class="section-tag">// 02 — RANKING</p>
-    <h2>As IAs Mais<br>Usadas Hoje</h2>
-    <p>Clique em qualquer card para ver mais detalhes. Filtre por categoria abaixo.</p>
+<!-- CATEGORIES -->
+<section style="position:relative;z-index:1;">
+  <div style="padding:3rem 5vw 1.5rem;">
+    <h2 style="font-size:clamp(1.6rem,4vw,2.5rem);font-weight:800;letter-spacing:-.02em;">Explore o Site</h2>
+    <p style="color:var(--muted);margin-top:.5rem;font-size:.92rem;">Cada seção tem um conteúdo dedicado e completo.</p>
   </div>
-
-  <div class="filter-bar">
-    <button class="filter-btn active" data-filter="all">Todas</button>
-    <button class="filter-btn" data-filter="texto">💬 Texto</button>
-    <button class="filter-btn" data-filter="código">💻 Código</button>
-    <button class="filter-btn" data-filter="imagem">🎨 Imagem</button>
-    <button class="filter-btn" data-filter="pesquisa">🔍 Pesquisa</button>
-    <button class="filter-btn" data-filter="voz">🎙️ Voz</button>
-  </div>
-
-  <div class="ai-grid">
-
-    <div class="ai-card" style="--card-accent:#10a37f" data-cats="texto código voz" data-delay="0" data-id="chatgpt">
-      <div class="ai-card-header"><div class="ai-icon">🟢</div><div><div class="ai-name">ChatGPT</div><div class="ai-maker">OpenAI · 2022</div></div><div class="ai-rank">#1 MAIS USADO</div></div>
-      <p class="ai-desc">O mais popular do mundo. Excelente para conversação, redação, código e tarefas gerais. Interface que democratizou o acesso à IA.</p>
-      <div class="ai-tags"><span class="tag">texto</span><span class="tag">código</span><span class="tag">voz</span><span class="tag">imagem</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="95"></div></div><span class="bar-pct">95%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
-    <div class="ai-card" style="--card-accent:#cc785c" data-cats="texto código" data-delay="100" data-id="claude">
-      <div class="ai-card-header"><div class="ai-icon">🟠</div><div><div class="ai-name">Claude</div><div class="ai-maker">Anthropic · 2023</div></div><div class="ai-rank">#1 EM CÓDIGO</div></div>
-      <p class="ai-desc">Líder em engenharia de software. Focado em segurança e raciocínio complexo. Excelente para análise, programação e escrita longa.</p>
-      <div class="ai-tags"><span class="tag">código</span><span class="tag">análise</span><span class="tag">texto</span><span class="tag">raciocínio</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="82"></div></div><span class="bar-pct">82%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
-    <div class="ai-card" style="--card-accent:#4285f4" data-cats="texto pesquisa voz" data-delay="200" data-id="gemini">
-      <div class="ai-card-header"><div class="ai-icon">🔵</div><div><div class="ai-name">Gemini</div><div class="ai-maker">Google DeepMind · 2023</div></div><div class="ai-rank">#3 GERAL</div></div>
-      <p class="ai-desc">Multimodal nativo: texto, imagem, áudio e vídeo juntos. Contexto de 1 milhão de tokens. Integrado ao ecossistema Google.</p>
-      <div class="ai-tags"><span class="tag">multimodal</span><span class="tag">pesquisa</span><span class="tag">vídeo</span><span class="tag">voz</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="78"></div></div><span class="bar-pct">78%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
-    <div class="ai-card" style="--card-accent:#e11d48" data-cats="texto pesquisa" data-delay="300" data-id="grok">
-      <div class="ai-card-header"><div class="ai-icon">⚡</div><div><div class="ai-name">Grok</div><div class="ai-maker">xAI (Elon Musk) · 2023</div></div><div class="ai-rank">TEMPO REAL</div></div>
-      <p class="ai-desc">Integrado ao X (Twitter), acessa dados em tempo real. Sem filtros excessivos. Forte para notícias, tendências e análise de redes sociais.</p>
-      <div class="ai-tags"><span class="tag">tempo real</span><span class="tag">pesquisa</span><span class="tag">notícias</span><span class="tag">texto</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="55"></div></div><span class="bar-pct">55%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
-    <div class="ai-card" style="--card-accent:#7c3aed" data-cats="imagem" data-delay="400" data-id="midjourney">
-      <div class="ai-card-header"><div class="ai-icon">🎨</div><div><div class="ai-name">Midjourney</div><div class="ai-maker">Midjourney Inc · 2022</div></div><div class="ai-rank">#1 IMAGENS</div></div>
-      <p class="ai-desc">Líder absoluto em geração de imagens artísticas. Transforma texto em arte fotorrealista ou estilizada. Favorita de designers.</p>
-      <div class="ai-tags"><span class="tag">imagem</span><span class="tag">arte</span><span class="tag">design</span><span class="tag">difusão</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="70"></div></div><span class="bar-pct">70%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
-    <div class="ai-card" style="--card-accent:#f59e0b" data-cats="código" data-delay="500" data-id="copilot">
-      <div class="ai-card-header"><div class="ai-icon">💻</div><div><div class="ai-name">GitHub Copilot</div><div class="ai-maker">Microsoft / OpenAI · 2021</div></div><div class="ai-rank">#1 DEVS</div></div>
-      <p class="ai-desc">IA especializada em código, integrada ao VSCode. Autocompleta funções e arquivos inteiros. +1 milhão de devs pagantes. Tem free para estudantes!</p>
-      <div class="ai-tags"><span class="tag">código</span><span class="tag">vscode</span><span class="tag">autocompletar</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="73"></div></div><span class="bar-pct">73%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
-    <div class="ai-card" style="--card-accent:#06b6d4" data-cats="pesquisa texto" data-delay="600" data-id="perplexity">
-      <div class="ai-card-header"><div class="ai-icon">🔍</div><div><div class="ai-name">Perplexity AI</div><div class="ai-maker">Perplexity · 2022</div></div><div class="ai-rank">PESQUISA</div></div>
-      <p class="ai-desc">Motor de busca com IA. Responde perguntas com fontes em tempo real. Ideal para pesquisa acadêmica e verificação de fatos.</p>
-      <div class="ai-tags"><span class="tag">pesquisa</span><span class="tag">fontes</span><span class="tag">tempo real</span><span class="tag">texto</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="48"></div></div><span class="bar-pct">48%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
-    <div class="ai-card" style="--card-accent:#ec4899" data-cats="imagem" data-delay="700" data-id="dalle">
-      <div class="ai-card-header"><div class="ai-icon">🖼️</div><div><div class="ai-name">DALL-E 3</div><div class="ai-maker">OpenAI · 2023</div></div><div class="ai-rank">IMAGENS</div></div>
-      <p class="ai-desc">Gerador de imagens da OpenAI, integrado ao ChatGPT Plus. Excelente para seguir instruções textuais detalhadas com precisão.</p>
-      <div class="ai-tags"><span class="tag">imagem</span><span class="tag">openai</span><span class="tag">texto</span></div>
-      <div class="usage-bar"><span class="usage-bar-label">USO</span><div class="bar-track"><div class="bar-fill" data-width="60"></div></div><span class="bar-pct">60%</span></div>
-      <p class="card-click-hint">↗ clique para detalhes</p>
-    </div>
-
+  <div class="categories">
+    <a href="pages/ias.html" class="cat-card fade-in" style="--cat-color:#00e5ff" data-delay="0">
+      <div class="cat-icon">🤖</div>
+      <div><div class="cat-title">Catálogo de IAs</div><div class="cat-desc">20+ IAs com busca, filtros, votação e detalhes completos</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="pages/historia.html" class="cat-card fade-in" style="--cat-color:#ff6b35" data-delay="80">
+      <div class="cat-icon">📜</div>
+      <div><div class="cat-title">História da IA</div><div class="cat-desc">De 1950 até hoje: linha do tempo completa dos marcos</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="pages/comparar.html" class="cat-card fade-in" style="--cat-color:#7c3aed" data-delay="160">
+      <div class="cat-icon">⚖️</div>
+      <div><div class="cat-title">Comparar IAs</div><div class="cat-desc">Tabela lado a lado com notas em texto, código, imagem e mais</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="pages/como-funciona.html" class="cat-card fade-in" style="--cat-color:#4ade80" data-delay="240">
+      <div class="cat-icon">⚙️</div>
+      <div><div class="cat-title">Como Funciona</div><div class="cat-desc">Redes neurais, Transformers, RLHF, difusão e mais</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="pages/quiz.html" class="cat-card fade-in" style="--cat-color:#fbbf24" data-delay="320">
+      <div class="cat-icon">🎯</div>
+      <div><div class="cat-title">Quiz — Qual IA é pra mim?</div><div class="cat-desc">4 perguntas e descobrimos a IA ideal para o seu perfil</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="pages/calculadora.html" class="cat-card fade-in" style="--cat-color:#f97316" data-delay="400">
+      <div class="cat-icon">💸</div>
+      <div><div class="cat-title">Calculadora de Custo</div><div class="cat-desc">Simule quanto vai custar usar IA no seu perfil de uso</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="pages/glossario.html" class="cat-card fade-in" style="--cat-color:#06b6d4" data-delay="480">
+      <div class="cat-icon">📖</div>
+      <div><div class="cat-title">Glossário</div><div class="cat-desc">22 termos técnicos de IA explicados em português simples</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="pages/brasil.html" class="cat-card fade-in" style="--cat-color:#009c3b" data-delay="560">
+      <div class="cat-icon">🇧🇷</div>
+      <div><div class="cat-title">IAs Brasileiras</div><div class="cat-desc">Conheça os modelos de IA desenvolvidos aqui no Brasil</div></div>
+      <span class="cat-arrow">→</span>
+    </a>
   </div>
 </section>
+
+<!-- HIGHLIGHT -->
+<div class="highlight" style="position:relative;z-index:1;">
+  <div class="highlight-text">
+    <h3>🎓 Dev e estudante?</h3>
+    <p>Sabia que você pode usar o GitHub Copilot de graça? Com o GitHub Student Pack, estudantes têm acesso a dezenas de ferramentas premium sem pagar nada.</p>
+  </div>
+  <div class="highlight-btns">
+    <a href="https://education.github.com/pack" target="_blank" rel="noopener" class="btn btn-primary">Ver Student Pack →</a>
+    <a href="pages/ias.html" class="btn btn-secondary">Ver IAs para devs</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+    <a href="pages/ias.html">IAs</a>
+    <a href="pages/historia.html">História</a>
+    <a href="pages/quiz.html">Quiz</a>
+    <a href="pages/glossario.html">Glossário</a>
+  </div>
+  <p>v3.0 · <span>2026</span></p>
+</footer>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modal">
-    <button class="modal-close" id="modalClose">✕</button>
-    <div id="modalContent"></div>
-  </div>
+  <div class="modal"><button class="modal-close" id="modalClose">✕</button><div id="modalContent"></div></div>
 </div>
 
-<hr class="divider" />
-
-<!-- COMPARAÇÃO -->
-<section id="comparacao">
-  <div class="section-header">
-    <p class="section-tag">// 03 — COMPARAÇÃO</p>
-    <h2>IAs Lado a Lado</h2>
-    <p>Compare as principais IAs em diferentes categorias de uma vez só.</p>
-  </div>
-  <div class="comparison-wrapper">
-    <table class="comparison-table">
-      <thead>
-        <tr>
-          <th>IA</th>
-          <th>Texto</th>
-          <th>Código</th>
-          <th>Imagem</th>
-          <th>Pesquisa</th>
-          <th>Raciocínio</th>
-          <th>Preço Base</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>🟢 ChatGPT (GPT-5)</td><td><span class="score score-s">S</span></td><td><span class="score score-a">A</span></td><td><span class="score score-a">A</span></td><td><span class="score score-b">B</span></td><td><span class="score score-s">S</span></td><td><span class="free-badge">Free</span> / $20/mês</td></tr>
-        <tr><td>🟠 Claude (Sonnet/Opus)</td><td><span class="score score-s">S</span></td><td><span class="score score-s">S</span></td><td><span class="score score-c">C</span></td><td><span class="score score-b">B</span></td><td><span class="score score-s">S</span></td><td><span class="free-badge">Free</span> / $20/mês</td></tr>
-        <tr><td>🔵 Gemini Pro</td><td><span class="score score-a">A</span></td><td><span class="score score-b">B</span></td><td><span class="score score-b">B</span></td><td><span class="score score-s">S</span></td><td><span class="score score-a">A</span></td><td><span class="free-badge">Free</span> / $20/mês</td></tr>
-        <tr><td>⚡ Grok</td><td><span class="score score-a">A</span></td><td><span class="score score-b">B</span></td><td><span class="score score-b">B</span></td><td><span class="score score-s">S</span></td><td><span class="score score-b">B</span></td><td><span class="free-badge">Free</span> / $16/mês</td></tr>
-        <tr><td>🎨 Midjourney</td><td><span class="score score-c">C</span></td><td><span class="score score-c">C</span></td><td><span class="score score-s">S</span></td><td><span class="score score-c">C</span></td><td><span class="score score-c">C</span></td><td><span class="paid-badge">$10/mês</span></td></tr>
-        <tr><td>💻 GitHub Copilot</td><td><span class="score score-c">C</span></td><td><span class="score score-s">S</span></td><td><span class="score score-c">C</span></td><td><span class="score score-c">C</span></td><td><span class="score score-a">A</span></td><td><span class="free-badge">Free*</span> / $10/mês</td></tr>
-        <tr><td>🔍 Perplexity</td><td><span class="score score-b">B</span></td><td><span class="score score-c">C</span></td><td><span class="score score-c">C</span></td><td><span class="score score-s">S</span></td><td><span class="score score-b">B</span></td><td><span class="free-badge">Free</span> / $20/mês</td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:1rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--muted);">* GitHub Copilot Free para estudantes com GitHub Student Pack &nbsp;|&nbsp; S = Excepcional · A = Ótimo · B = Bom · C = Básico</p>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- BRASIL -->
-<section id="brasil" style="background: var(--surface);">
-  <div class="section-header">
-    <p class="section-tag">// 04 — 🇧🇷 MADE IN BRAZIL</p>
-    <h2>IAs Brasileiras</h2>
-    <p>O Brasil também está no jogo! Conheça as IAs desenvolvidas aqui.</p>
-  </div>
-  <div class="br-grid">
-    <div class="br-card">
-      <div class="br-flag">🦜</div>
-      <h3>Sabiá-3 (Maritaca AI)</h3>
-      <div class="br-origin">Maritaca AI · USP / Unicamp</div>
-      <p>LLM desenvolvido por pesquisadores brasileiros, focado em português. Supera modelos internacionais em benchmarks de língua portuguesa. Treinado com textos em PT-BR.</p>
-    </div>
-    <div class="br-card">
-      <div class="br-flag">🤖</div>
-      <h3>BERTimbau</h3>
-      <div class="br-origin">NLP-USP · 2020</div>
-      <p>Versão do BERT treinada especificamente em português do Brasil. Amplamente usada em pesquisa acadêmica, análise de sentimentos e NLP em PT-BR.</p>
-    </div>
-    <div class="br-card">
-      <div class="br-flag">💼</div>
-      <h3>Cortex Intelligence</h3>
-      <div class="br-origin">Cortex · São Paulo</div>
-      <p>IA voltada para inteligência de mercado e vendas B2B. Processa dados de mercado brasileiro para gerar insights de negócios. Usada por grandes empresas nacionais.</p>
-    </div>
-    <div class="br-card">
-      <div class="br-flag">🏦</div>
-      <h3>IA dos Bancos Brasileiros</h3>
-      <div class="br-origin">Itaú, Nubank, Bradesco</div>
-      <p>Instituições financeiras brasileiras lideram em IA para detecção de fraudes, atendimento e crédito. Nubank e Itaú estão entre os maiores investidores em IA da América Latina.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- COMO FUNCIONA -->
-<section id="como-funciona">
-  <div class="section-header">
-    <p class="section-tag">// 05 — TECNOLOGIA</p>
-    <h2>Como as IAs<br>Funcionam?</h2>
-    <p>Por baixo do capô: os mecanismos que fazem as IAs modernas pensar.</p>
-  </div>
-  <div class="how-grid">
-    <div class="how-card"><div class="how-num">01</div><h3>Redes Neurais Artificiais</h3><p>Inspiradas no cérebro humano, são camadas de neurônios matemáticos conectados. Cada conexão tem um peso ajustado durante o treinamento para melhorar as respostas.</p></div>
-    <div class="how-card"><div class="how-num">02</div><h3>Treinamento com Dados</h3><p>Modelos modernos são treinados em trilhões de palavras da internet, livros e código. O modelo aprende padrões estatísticos — qual palavra provavelmente vem depois da outra.</p></div>
-    <div class="how-card"><div class="how-num">03</div><h3>Transformer & Atenção</h3><p>A arquitetura que revolucionou tudo. O mecanismo de "atenção" permite entender o contexto de palavras distantes numa frase — não só as adjacentes.</p></div>
-    <div class="how-card"><div class="how-num">04</div><h3>RLHF — Feedback Humano</h3><p>Após o pré-treino, humanos avaliam respostas e ensinam o modelo a ser útil e seguro. É assim que ChatGPT, Claude e Gemini são "alinhados" com valores humanos.</p></div>
-    <div class="how-card"><div class="how-num">05</div><h3>Tokens & Probabilidade</h3><p>A IA não lê palavras — lê tokens (pedaços de texto). Para cada token, calcula a probabilidade dos próximos possíveis e escolhe o mais adequado.</p></div>
-    <div class="how-card"><div class="how-num">06</div><h3>Modelos de Difusão</h3><p>Para imagens (Midjourney, DALL-E): começa com ruído aleatório e vai "limpando" gradualmente, guiado pelo texto, até criar uma imagem coerente.</p></div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- QUIZ -->
-<section id="quiz" style="background: var(--surface);">
-  <div class="section-header">
-    <p class="section-tag">// 06 — QUIZ</p>
-    <h2>Qual IA é<br>Ideal pra Você?</h2>
-    <p>Responda 4 perguntas rápidas e descubra qual IA combina com seu perfil.</p>
-  </div>
-  <div class="quiz-wrapper">
-    <div class="quiz-box">
-      <div class="quiz-progress" id="quizProgress">
-        <div class="quiz-progress-dot"></div>
-        <div class="quiz-progress-dot"></div>
-        <div class="quiz-progress-dot"></div>
-        <div class="quiz-progress-dot"></div>
-      </div>
-
-      <div id="quizQuestions">
-        <p class="quiz-q" id="quizQuestion"></p>
-        <div class="quiz-options" id="quizOptions"></div>
-        <div class="quiz-nav">
-          <span class="quiz-step-label" id="quizStepLabel"></span>
-          <button class="btn btn-primary" id="quizNext" style="display:none">Próximo →</button>
-        </div>
-      </div>
-
-      <div class="quiz-result" id="quizResult">
-        <div class="result-card" id="resultCard"></div>
-        <button class="quiz-restart" id="quizRestart">↺ Refazer o Quiz</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 <span>AI_UNIVERSE</span> — Feito com curiosidade e código</p>
-  <p>Dados: pesquisa pública · Atualizado em <span>2026</span></p>
-</footer>
-
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
 <script>
-// =================== CANVAS BG ===================
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-let W, H, nodes = [];
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-resize(); window.addEventListener('resize', resize);
-class Node {
-  constructor() { this.x = Math.random()*W; this.y = Math.random()*H; this.vx = (Math.random()-0.5)*0.4; this.vy = (Math.random()-0.5)*0.4; this.r = Math.random()*2+1; }
-  update() { this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W) this.vx*=-1; if(this.y<0||this.y>H) this.vy*=-1; }
-}
-for(let i=0;i<60;i++) nodes.push(new Node());
-function draw() {
-  ctx.clearRect(0,0,W,H);
-  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-  const nodeColor = isDark ? 'rgba(0,229,255,0.6)' : 'rgba(0,100,180,0.4)';
-  const lineBase = isDark ? '0,229,255' : '0,100,180';
-  nodes.forEach((n,i) => {
-    n.update();
-    ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fillStyle=nodeColor; ctx.fill();
-    nodes.slice(i+1).forEach(m => {
-      const d = Math.hypot(n.x-m.x, n.y-m.y);
-      if(d<150) { ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(m.x,m.y); ctx.strokeStyle=`rgba(${lineBase},${0.15*(1-d/150)})`; ctx.lineWidth=0.5; ctx.stroke(); }
-    });
-  });
-  requestAnimationFrame(draw);
-}
-draw();
-
-// =================== THEME TOGGLE ===================
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-  const html = document.documentElement;
-  const isDark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  themeToggle.textContent = isDark ? '🌙' : '☀️';
+document.addEventListener('DOMContentLoaded', () => {
+  const TOP_IDS = ['chatgpt','claude','gemini','copilot'];
+  const topData = TOP_IDS.map(id => AI_DATA.find(a => a.id === id)).filter(Boolean);
+  renderCards(topData, 'topGrid');
+  initObserver();
 });
-
-// =================== HAMBURGER ===================
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
-
-// =================== INTERSECTION OBSERVER ===================
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting) {
-      const el = entry.target;
-      setTimeout(() => {
-        el.classList.add('visible');
-        el.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.width + '%'; });
-      }, parseInt(el.dataset.delay || 0));
-      observer.unobserve(el);
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.tl-item, .ai-card, .how-card, .br-card').forEach(el => observer.observe(el));
-
-// =================== COUNTER ANIMATION ===================
-const counterObs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting) {
-      const el = entry.target;
-      const target = parseInt(el.dataset.target);
-      let cur = 0; const step = target / 60;
-      const timer = setInterval(() => {
-        cur = Math.min(cur+step, target);
-        el.textContent = Math.floor(cur).toLocaleString('pt-BR') + '+';
-        if(cur >= target) clearInterval(timer);
-      }, 16);
-      counterObs.unobserve(el);
-    }
-  });
-}, { threshold: 0.5 });
-document.querySelectorAll('[data-target]').forEach(c => counterObs.observe(c));
-
-// =================== FILTER ===================
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    document.querySelectorAll('.ai-card').forEach(card => {
-      if(filter === 'all') { card.classList.remove('hidden'); }
-      else {
-        const cats = card.dataset.cats || '';
-        card.classList.toggle('hidden', !cats.includes(filter));
-      }
-    });
-  });
-});
-
-// =================== MODAL DATA ===================
-const modalData = {
-  chatgpt: {
-    icon: '🟢', name: 'ChatGPT / GPT-5', maker: 'OpenAI · Fundada em 2015',
-    about: 'O ChatGPT é o modelo de IA mais usado no mundo. Baseado na arquitetura Transformer, foi treinado em enormes quantidades de texto da internet e refinado com feedback humano (RLHF). O GPT-5 representa a evolução mais recente, com capacidades multimodais e raciocínio avançado.',
-    pros: ['Interface mais popular e intuitiva', 'Excelente para tarefas gerais', 'Multimodal: texto, imagem, voz', 'Grande ecossistema de plugins'],
-    cons: ['Pode alucinar fatos', 'Histórico de filtros excessivos', 'Custo do plano Pro elevado'],
-    specs: [{ label: 'LANÇAMENTO', val: '2022' }, { label: 'EMPRESA', val: 'OpenAI' }, { label: 'PLANO FREE', val: 'Sim (limitado)' }, { label: 'PRO', val: '$20/mês' }, { label: 'API', val: 'Sim' }, { label: 'CONTEXTO', val: '128K tokens' }]
-  },
-  claude: {
-    icon: '🟠', name: 'Claude (Opus / Sonnet)', maker: 'Anthropic · Fundada em 2021',
-    about: 'Claude é desenvolvido pela Anthropic com foco em segurança e alinhamento. Treinado com "Constitutional AI" — um método onde a IA aprende princípios éticos. Lidera o benchmark SWE-bench para engenharia de software com 80.9% de acerto. Excelente para código, análise e documentos longos.',
-    pros: ['#1 em código e engenharia', 'Excelente raciocínio longo', 'Mais honesto sobre limitações', 'Contexto de 200K tokens'],
-    cons: ['Sem geração de imagens nativa', 'Limite de mensagens no free', 'Menos plugins que o ChatGPT'],
-    specs: [{ label: 'LANÇAMENTO', val: '2023' }, { label: 'EMPRESA', val: 'Anthropic' }, { label: 'PLANO FREE', val: 'Sim (limitado)' }, { label: 'PRO', val: '$20/mês' }, { label: 'API', val: 'Sim' }, { label: 'CONTEXTO', val: '200K tokens' }]
-  },
-  gemini: {
-    icon: '🔵', name: 'Gemini Pro / Ultra', maker: 'Google DeepMind · 2023',
-    about: 'Gemini é o modelo multimodal do Google, integrado ao ecossistema completo: Search, Docs, Gmail, YouTube. Foi o primeiro modelo a superar humanos em 57 disciplinas acadêmicas (MMLU). Possui janela de contexto de 1 milhão de tokens, a maior disponível comercialmente.',
-    pros: ['Multimodal nativo (texto, imagem, vídeo, áudio)', 'Integrado ao Google Workspace', 'Contexto de 1M de tokens', 'Pesquisa em tempo real'],
-    cons: ['Código menos preciso que Claude', 'Respostas às vezes genéricas', 'Privacidade no ecossistema Google'],
-    specs: [{ label: 'LANÇAMENTO', val: '2023' }, { label: 'EMPRESA', val: 'Google DeepMind' }, { label: 'PLANO FREE', val: 'Sim' }, { label: 'PRO', val: '$20/mês' }, { label: 'API', val: 'Sim' }, { label: 'CONTEXTO', val: '1M tokens' }]
-  },
-  grok: {
-    icon: '⚡', name: 'Grok', maker: 'xAI (Elon Musk) · 2023',
-    about: 'Grok é o modelo da xAI, empresa de Elon Musk. Tem acesso em tempo real ao X (Twitter), permitindo buscar tweets e notícias recentes. É menos censurado que os concorrentes — mais direto e sem filtros excessivos. Cresceu rapidamente em popularidade em 2024-2025.',
-    pros: ['Dados em tempo real via X/Twitter', 'Menos filtros, mais direto', 'Forte para análise de tendências', 'Integrado ao X Premium'],
-    cons: ['Menos preciso em ciências', 'Pode gerar conteúdo polêmico', 'Ecossistema menor que OpenAI/Google'],
-    specs: [{ label: 'LANÇAMENTO', val: '2023' }, { label: 'EMPRESA', val: 'xAI' }, { label: 'PLANO FREE', val: 'Limitado' }, { label: 'PRO', val: '$16/mês' }, { label: 'API', val: 'Sim' }, { label: 'CONTEXTO', val: '128K tokens' }]
-  },
-  midjourney: {
-    icon: '🎨', name: 'Midjourney', maker: 'Midjourney Inc · 2022',
-    about: 'Midjourney é o líder absoluto em geração de imagens artísticas. Usa modelos de difusão para transformar texto em imagens fotorrealistas ou artísticas. Favorito de designers, artistas, ilustradores e criadores de conteúdo. Opera via Discord ou interface web.',
-    pros: ['Qualidade artística incomparável', 'Huge comunidade criativa', 'Estilos altamente personalizáveis', 'Boa fidelidade de prompts'],
-    cons: ['Sem plano gratuito (apenas trial)', 'Opera principalmente no Discord', 'Não é boa em texto dentro de imagens'],
-    specs: [{ label: 'LANÇAMENTO', val: '2022' }, { label: 'EMPRESA', val: 'Midjourney Inc' }, { label: 'PLANO FREE', val: 'Trial apenas' }, { label: 'BÁSICO', val: '$10/mês' }, { label: 'API', val: 'Em beta' }, { label: 'TIPO', val: 'Difusão' }]
-  },
-  copilot: {
-    icon: '💻', name: 'GitHub Copilot', maker: 'Microsoft / OpenAI · 2021',
-    about: 'GitHub Copilot é a IA de código mais usada por desenvolvedores. Integrada diretamente ao VSCode, JetBrains e outros editores, autocompleta linhas, funções e arquivos inteiros. Baseada nos modelos GPT da OpenAI. A melhor parte: é GRATUITA para estudantes com o GitHub Student Developer Pack!',
-    pros: ['Gratuito para estudantes!', 'Integração nativa nos editores', 'Autocompletar em tempo real', 'Suporta +20 linguagens'],
-    cons: ['Requer editor compatível', 'Pode sugerir código bugado', 'Privacidade do código enviado'],
-    specs: [{ label: 'LANÇAMENTO', val: '2021' }, { label: 'EMPRESA', val: 'Microsoft/OpenAI' }, { label: 'ESTUDANTE', val: '🆓 Grátis!' }, { label: 'PRO', val: '$10/mês' }, { label: 'EDITORES', val: 'VSCode++' }, { label: 'LINGUAGENS', val: '+20' }]
-  },
-  perplexity: {
-    icon: '🔍', name: 'Perplexity AI', maker: 'Perplexity · 2022',
-    about: 'Perplexity é um motor de busca com IA — diferente dos chatbots normais, ele cita fontes reais em cada resposta. Ideal para pesquisa acadêmica, verificação de fatos e notícias recentes. Combina o poder de um LLM com a atualidade de uma busca na internet.',
-    pros: ['Sempre cita as fontes', 'Dados em tempo real', 'Ótimo para pesquisa acadêmica', 'Interface limpa e rápida'],
-    cons: ['Menor capacidade criativa', 'Não é bom para código', 'Respostas mais curtas'],
-    specs: [{ label: 'LANÇAMENTO', val: '2022' }, { label: 'EMPRESA', val: 'Perplexity AI' }, { label: 'PLANO FREE', val: 'Sim' }, { label: 'PRO', val: '$20/mês' }, { label: 'FONTES', val: 'Sempre' }, { label: 'TEMPO REAL', val: 'Sim' }]
-  },
-  dalle: {
-    icon: '🖼️', name: 'DALL-E 3', maker: 'OpenAI · 2023',
-    about: 'DALL-E 3 é o gerador de imagens da OpenAI, integrado ao ChatGPT Plus. Destaca-se na precisão em seguir instruções textuais detalhadas — melhor que Midjourney nesse quesito. Ótimo para criar ilustrações conceituais, imagens de produto e arte para redes sociais.',
-    pros: ['Excelente em seguir prompts', 'Integrado ao ChatGPT', 'Boa em texto dentro de imagens', 'Seguro e moderado'],
-    cons: ['Qualidade artística inferior ao Midjourney', 'Filtros mais rígidos', 'Sem plano dedicado (usa créditos)'],
-    specs: [{ label: 'LANÇAMENTO', val: '2023' }, { label: 'EMPRESA', val: 'OpenAI' }, { label: 'ACESSO', val: 'ChatGPT Plus' }, { label: 'PREÇO', val: '$20/mês (junto)' }, { label: 'API', val: 'Sim' }, { label: 'TIPO', val: 'Difusão' }]
-  }
-};
-
-// =================== MODAL ===================
-function openModal(id) {
-  const d = modalData[id]; if(!d) return;
-  document.getElementById('modalContent').innerHTML = `
-    <div class="modal-header">
-      <div class="modal-icon">${d.icon}</div>
-      <div><div class="modal-title">${d.name}</div><div class="modal-subtitle">${d.maker}</div></div>
-    </div>
-    <div class="modal-section"><h4>SOBRE</h4><p>${d.about}</p></div>
-    <div class="modal-section"><h4>ESPECIFICAÇÕES</h4>
-      <div class="modal-specs">${d.specs.map(s=>`<div class="spec-item"><div class="spec-label">${s.label}</div><div class="spec-value">${s.val}</div></div>`).join('')}</div>
-    </div>
-    <div class="modal-section"><h4>PRÓS & CONTRAS</h4>
-      <div class="modal-pros-cons">
-        <div class="pros"><h5>✓ Pontos Fortes</h5><ul>${d.pros.map(p=>`<li>${p}</li>`).join('')}</ul></div>
-        <div class="cons"><h5>✗ Pontos Fracos</h5><ul>${d.cons.map(c=>`<li>${c}</li>`).join('')}</ul></div>
-      </div>
-    </div>
-  `;
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-document.querySelectorAll('.ai-card').forEach(card => {
-  card.addEventListener('click', () => openModal(card.dataset.id));
-});
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target === e.currentTarget) closeModal(); });
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow = ''; }
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-
-// =================== QUIZ ===================
-const questions = [
-  {
-    q: "Qual é o seu principal objetivo ao usar IA?",
-    opts: [
-      { icon:'💻', text:'Escrever e revisar código', key:'code' },
-      { icon:'✍️', text:'Criar textos, posts e conteúdo', key:'text' },
-      { icon:'🎨', text:'Gerar imagens e artes visuais', key:'image' },
-      { icon:'🔍', text:'Pesquisar e buscar informações', key:'search' }
-    ]
-  },
-  {
-    q: "Você prefere pagar ou usar gratuitamente?",
-    opts: [
-      { icon:'🆓', text:'Somente grátis, obrigado!', key:'free' },
-      { icon:'💰', text:'Topo pagar se valer a pena', key:'paid' },
-      { icon:'🎓', text:'Sou estudante (quero desconto)', key:'student' },
-      { icon:'🤷', text:'Tanto faz, quero o melhor', key:'best' }
-    ]
-  },
-  {
-    q: "Em qual área você trabalha ou estuda?",
-    opts: [
-      { icon:'🖥️', text:'Tecnologia / Programação', key:'tech' },
-      { icon:'🎭', text:'Design / Criativo / Arte', key:'creative' },
-      { icon:'📊', text:'Negócios / Marketing', key:'business' },
-      { icon:'📚', text:'Educação / Pesquisa', key:'edu' }
-    ]
-  },
-  {
-    q: "O que mais importa pra você em uma IA?",
-    opts: [
-      { icon:'⚡', text:'Velocidade e praticidade', key:'speed' },
-      { icon:'🎯', text:'Precisão e confiabilidade', key:'accuracy' },
-      { icon:'🌐', text:'Informações em tempo real', key:'realtime' },
-      { icon:'🔒', text:'Privacidade e segurança', key:'privacy' }
-    ]
-  }
-];
-
-const results = {
-  dev_free:    { icon:'💻', name:'GitHub Copilot', why:'Você é dev e quer grátis! Copilot é gratuito para estudantes via GitHub Student Pack. Integra direto no VSCode e vai turbinar seu código.' },
-  dev_paid:    { icon:'🟠', name:'Claude (Anthropic)', why:'Para desenvolvimento sério, Claude é #1 em código. O plano Pro vale cada centavo — contexto imenso, raciocínio excepcional e precisão técnica.' },
-  image:       { icon:'🎨', name:'Midjourney', why:'Para imagens, Midjourney é inigualável. A qualidade artística é incomparável. Se quiser grátis, tente o DALL-E 3 integrado ao ChatGPT.' },
-  search:      { icon:'🔍', name:'Perplexity AI', why:'Para pesquisa, Perplexity é o ideal — sempre cita fontes, tem dados em tempo real e é gratuito. Perfeito para trabalhos acadêmicos.' },
-  general:     { icon:'🟢', name:'ChatGPT (GPT-5)', why:'Para uso geral, ChatGPT ainda é o rei. A versão grátis já é excelente para o dia a dia, e o Plus vale para quem usa intensamente.' },
-  creative:    { icon:'🎨', name:'Midjourney + ChatGPT', why:'Para criativos, a combo imbatível é Midjourney para imagens e ChatGPT para textos e ideias. Os dois juntos cobrem todo o processo criativo.' },
-  realtime:    { icon:'⚡', name:'Grok (xAI)', why:'Para dados em tempo real e tendências do momento, Grok conectado ao X/Twitter é imbatível. Informações fresquinhas 24/7.' },
-};
-
-let currentQ = 0, answers = [];
-function renderQuiz() {
-  const q = questions[currentQ];
-  document.getElementById('quizQuestion').textContent = q.q;
-  document.getElementById('quizOptions').innerHTML = q.opts.map((o,i) =>
-    `<button class="quiz-option" data-idx="${i}" data-key="${o.key}"><span class="quiz-option-icon">${o.icon}</span>${o.text}</button>`
-  ).join('');
-  document.getElementById('quizStepLabel').textContent = `${currentQ+1} / ${questions.length}`;
-  document.getElementById('quizNext').style.display = 'none';
-  const dots = document.querySelectorAll('.quiz-progress-dot');
-  dots.forEach((d,i) => d.classList.toggle('done', i < currentQ));
-  document.querySelectorAll('.quiz-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      answers[currentQ] = btn.dataset.key;
-      document.getElementById('quizNext').style.display = 'inline-block';
-    });
-  });
-}
-document.getElementById('quizNext').addEventListener('click', () => {
-  if(!answers[currentQ]) return;
-  currentQ++;
-  if(currentQ < questions.length) { renderQuiz(); }
-  else { showResult(); }
-});
-function showResult() {
-  document.getElementById('quizQuestions').style.display = 'none';
-  const r = document.getElementById('quizResult');
-  r.classList.add('show');
-  const dots = document.querySelectorAll('.quiz-progress-dot');
-  dots.forEach(d => d.classList.add('done'));
-  let result;
-  if(answers.includes('image') || answers.includes('creative')) result = results.creative;
-  else if(answers.includes('realtime')) result = results.realtime;
-  else if(answers.includes('search') || answers.includes('edu')) result = results.search;
-  else if((answers.includes('code') || answers.includes('tech')) && (answers.includes('free') || answers.includes('student'))) result = results.dev_free;
-  else if(answers.includes('code') || answers.includes('tech')) result = results.dev_paid;
-  else result = results.general;
-  document.getElementById('resultCard').innerHTML = `
-    <div class="result-icon">${result.icon}</div>
-    <h3>Sua IA ideal: ${result.name}</h3>
-    <p class="result-why">${result.why}</p>
-  `;
-}
-document.getElementById('quizRestart').addEventListener('click', () => {
-  currentQ = 0; answers = [];
-  document.getElementById('quizResult').classList.remove('show');
-  document.getElementById('quizQuestions').style.display = 'block';
-  renderQuiz();
-});
-renderQuiz();
 </script>
 </body>
 </html>

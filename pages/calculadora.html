@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Calculadora de Custo — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<style>
+.calc-wrap { padding:2rem 5vw 5rem; }
+.calc-box { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; max-width:700px; margin:0 auto; }
+.calc-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+@media(max-width:500px){ .calc-row { grid-template-columns:1fr; } }
+.calc-field label { font-family:'Space Mono',monospace; font-size:.65rem; color:var(--muted); display:block; margin-bottom:.4rem; letter-spacing:.07em; }
+.calc-field select,.calc-field input { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:.65rem .9rem; color:var(--text); font-family:'Syne',sans-serif; font-size:.9rem; outline:none; transition:border-color .2s; -webkit-appearance:none; }
+.calc-field select:focus,.calc-field input:focus { border-color:var(--accent); }
+.calc-results { margin-top:1.5rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:.8rem; }
+.calc-result-item { background:var(--surface); border-radius:8px; padding:1rem; text-align:center; border:1px solid var(--border); }
+.calc-result-num { font-size:1.5rem; font-weight:800; color:var(--accent); display:block; }
+.calc-result-label { font-family:'Space Mono',monospace; font-size:.6rem; color:var(--muted); margin-top:.25rem; display:block; }
+.calc-note { margin-top:1rem; font-family:'Space Mono',monospace; font-size:.65rem; color:var(--muted); background:var(--surface); border-radius:6px; padding:.75rem 1rem; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li><li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li><li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li><li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li><li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / Calculadora</p>
+    <h1>💸 Calculadora de Custo</h1>
+    <p>Simule quanto vai custar usar IA no seu perfil. Compare planos e descubra se o free é suficiente.</p>
+  </div>
+  <div class="calc-wrap">
+    <div class="calc-box">
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>QUAL IA?</label>
+          <select id="calcAI">
+            <option value="chatgpt">ChatGPT Plus</option>
+            <option value="claude">Claude Pro</option>
+            <option value="gemini">Gemini Advanced</option>
+            <option value="grok">Grok Premium</option>
+            <option value="midjourney">Midjourney Basic</option>
+            <option value="copilot">GitHub Copilot Pro</option>
+            <option value="perplexity">Perplexity Pro</option>
+            <option value="cursor">Cursor Pro</option>
+            <option value="llama">Llama (Open Source)</option>
+            <option value="deepseek">DeepSeek (Open Source)</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>MENSAGENS POR DIA</label>
+          <input id="calcMsgs" type="number" value="20" min="1" max="500"/>
+        </div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>USUÁRIOS / CONTAS</label>
+          <input id="calcUsers" type="number" value="1" min="1" max="50"/>
+        </div>
+        <div class="calc-field">
+          <label>MOEDA</label>
+          <select id="calcCurrency">
+            <option value="brl">🇧🇷 BRL (R$)</option>
+            <option value="usd">🇺🇸 USD ($)</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-results" id="calcResults"></div>
+      <div class="calc-note" id="calcNote"></div>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p><a href="../index.html">← Voltar ao Início</a></p>
+</footer>
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+const P={chatgpt:{usd:20,free:true,fl:40},claude:{usd:20,free:true,fl:30},gemini:{usd:20,free:true,fl:999},grok:{usd:16,free:true,fl:20},midjourney:{usd:10,free:false,fl:0},copilot:{usd:10,free:true,fl:50},perplexity:{usd:20,free:true,fl:999},cursor:{usd:20,free:true,fl:50},llama:{usd:0,free:true,fl:9999},deepseek:{usd:0,free:true,fl:9999}};
+const BRL=5.05;
+function calc(){
+  const ai=document.getElementById('calcAI').value;
+  const msgs=parseInt(document.getElementById('calcMsgs').value)||20;
+  const users=parseInt(document.getElementById('calcUsers').value)||1;
+  const cur=document.getElementById('calcCurrency').value;
+  const p=P[ai]||P.chatgpt;
+  const sym=cur==='brl'?'R$':'$';
+  const rate=cur==='brl'?BRL:1;
+  const monthly=msgs*30*users;
+  const total=p.usd*users;
+  const totalC=(total*rate).toFixed(2);
+  const yearC=(total*rate*12).toFixed(2);
+  let note='';
+  if(p.usd===0)note='✅ Este modelo é 100% gratuito e open-source! Sem custos.';
+  else if(p.free&&msgs*users<=p.fl)note='✅ Com esse uso, o plano GRATUITO pode ser suficiente! Teste antes de pagar.';
+  else note='💡 Verifique se o plano free cobre seu uso antes de assinar o Pro.';
+  document.getElementById('calcResults').innerHTML=`
+    <div class="calc-result-item"><span class="calc-result-num">${monthly.toLocaleString('pt-BR')}</span><span class="calc-result-label">MSGS/MÊS</span></div>
+    <div class="calc-result-item"><span class="calc-result-num">${sym}${totalC}</span><span class="calc-result-label">CUSTO/MÊS</span></div>
+    <div class="calc-result-item"><span class="calc-result-num">${sym}${yearC}</span><span class="calc-result-label">CUSTO/ANO</span></div>
+    <div class="calc-result-item"><span class="calc-result-num">${p.free?'✅':'❌'}</span><span class="calc-result-label">TEM FREE TIER</span></div>`;
+  document.getElementById('calcNote').textContent=note;
+}
+['calcAI','calcMsgs','calcUsers','calcCurrency'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>

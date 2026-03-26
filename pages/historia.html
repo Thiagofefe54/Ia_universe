@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>História da IA — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<style>
+.timeline { padding:2rem 5vw 5rem; position:relative; }
+.timeline::before { content:''; position:absolute; left:calc(5vw + 20px); top:0; bottom:0; width:1px; background:linear-gradient(to bottom,var(--accent),transparent); }
+@media(max-width:600px){ .timeline::before { display:none; } }
+.tl-item { display:flex; gap:1.8rem; margin-bottom:2rem; opacity:0; transform:translateX(-20px); transition:all .5s; }
+.tl-item.visible { opacity:1; transform:translateX(0); }
+.tl-dot { width:40px; height:40px; min-width:40px; border-radius:50%; background:var(--card); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; font-size:1.1rem; position:relative; z-index:1; }
+.tl-content { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:1.3rem; flex:1; transition:border-color .2s; }
+.tl-content:hover { border-color:var(--accent); }
+.tl-year { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--accent); letter-spacing:.1em; margin-bottom:.25rem; }
+.tl-content h3 { font-size:1rem; font-weight:700; margin-bottom:.35rem; }
+.tl-content p { color:var(--muted); font-size:.85rem; line-height:1.62; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li>
+    <li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li>
+    <li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li>
+    <li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / História</p>
+    <h1>📜 História da IA</h1>
+    <p>De 1950 até a Era dos Agentes. A linha do tempo completa dos marcos que definiram a Inteligência Artificial.</p>
+  </div>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot">🧠</div><div class="tl-content"><p class="tl-year">1950</p><h3>Teste de Turing</h3><p>Alan Turing propõe o "Jogo da Imitação" — se uma máquina engana um humano numa conversa, ela pode ser considerada inteligente. A fundação de tudo.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🔬</div><div class="tl-content"><p class="tl-year">1956</p><h3>Nasce o termo "Inteligência Artificial"</h3><p>John McCarthy cunha o termo na Conferência de Dartmouth. Pesquisadores se reúnem pela primeira vez com o objetivo explícito de criar máquinas que pensam.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">💬</div><div class="tl-content"><p class="tl-year">1966</p><h3>ELIZA — O Primeiro Chatbot</h3><p>Joseph Weizenbaum cria o ELIZA no MIT. Simulava um psicoterapeuta respondendo perguntas. Muitos usuários acreditavam estar conversando com um humano real.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🌡️</div><div class="tl-content"><p class="tl-year">1974–1980</p><h3>Primeiro "Inverno da IA"</h3><p>Financiamentos secam, progresso estagna. A IA prometeu mais do que entregou na época. Esse ciclo de expectativa e desapontamento se repetiu na história.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🧬</div><div class="tl-content"><p class="tl-year">1986</p><h3>Backpropagation — Redes Neurais Ressurgem</h3><p>Rumelhart e Hinton popularizam o backpropagation, permitindo treinar redes neurais multicamadas. A base do deep learning moderno é estabelecida.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">♟️</div><div class="tl-content"><p class="tl-year">1997</p><h3>Deep Blue vence Kasparov</h3><p>O computador da IBM derrota o campeão mundial de xadrez Garry Kasparov. Primeiro marco público de IA superando humanos em tarefa complexa de raciocínio.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🏆</div><div class="tl-content"><p class="tl-year">2011</p><h3>IBM Watson vence o Jeopardy!</h3><p>Watson compete contra os maiores campeões do quiz americano e vence. Processamento de linguagem natural em escala real pela primeira vez.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">👁️</div><div class="tl-content"><p class="tl-year">2012</p><h3>AlexNet — Revolução do Deep Learning</h3><p>A rede neural de Geoffrey Hinton domina o ImageNet com precisão sem precedentes. As portas para visão computacional e IA moderna são abertas definitivamente.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🏎️</div><div class="tl-content"><p class="tl-year">2016</p><h3>AlphaGo vence o Go</h3><p>Considerado impossível para IAs pelo Go ter mais combinações que átomos no universo. O AlphaGo da DeepMind vence o campeão mundial Lee Sedol 4-1.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🤖</div><div class="tl-content"><p class="tl-year">2017</p><h3>Transformer — A Arquitetura que Mudou Tudo</h3><p>Google publica "Attention is All You Need". O Transformer se torna a base de praticamente todos os modelos modernos: GPT, Claude, Gemini.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">📝</div><div class="tl-content"><p class="tl-year">2018–2020</p><h3>GPT-1, BERT, GPT-2 e GPT-3</h3><p>OpenAI e Google lançam modelos cada vez maiores. O GPT-3 com 175 bilhões de parâmetros choca o mundo: escreve código, poesia, artigos e muito mais.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🎨</div><div class="tl-content"><p class="tl-year">2021–2022</p><h3>DALL-E, Stable Diffusion, GitHub Copilot</h3><p>IAs capazes de gerar imagens fotorrealistas e completar código chegam ao público. A IA começa a ser criativa e produtiva de formas inesperadas.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🚀</div><div class="tl-content"><p class="tl-year">Nov 2022</p><h3>ChatGPT — IA para Todo Mundo</h3><p>Em 5 dias, 1 milhão de usuários. Em 2 meses, 100 milhões. Nenhum produto na história cresceu tão rápido. A IA deixa o laboratório e entra na vida cotidiana.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🔥</div><div class="tl-content"><p class="tl-year">2023</p><h3>Corrida das IAs</h3><p>Google lança Bard/Gemini, Anthropic lança Claude, Meta abre o Llama. Empresas de todos os setores correm para integrar IA nos seus produtos. Bilhões investidos.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🐋</div><div class="tl-content"><p class="tl-year">2024</p><h3>DeepSeek choca o mercado</h3><p>IA chinesa lança modelo comparável ao GPT-4 sendo 100% gratuito e open-source, com fração do custo. Questiona os bilhões investidos pelas big techs.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">⚡</div><div class="tl-content"><p class="tl-year">2025–2026</p><h3>Era dos Agentes de IA</h3><p>IAs deixam de responder perguntas e passam a agir autonomamente: navegam na web, escrevem e rodam código, gerenciam arquivos, tomam decisões complexas.</p></div></div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p><a href="../index.html">← Voltar ao Início</a></p>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => { initObserver(); });
+</script>
+</body>
+</html>

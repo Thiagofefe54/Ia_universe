@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Quiz — Qual IA é pra mim? — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<style>
+.quiz-wrap { padding:2rem 5vw 5rem; }
+.quiz-box { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; max-width:640px; margin:0 auto; }
+.quiz-prog { display:flex; gap:.4rem; margin-bottom:2rem; }
+.quiz-prog-dot { flex:1; height:4px; background:var(--border); border-radius:2px; transition:background .3s; }
+.quiz-prog-dot.done { background:var(--accent); }
+.quiz-q { font-size:1.2rem; font-weight:700; margin-bottom:1.3rem; line-height:1.4; }
+.quiz-opts { display:flex; flex-direction:column; gap:.7rem; }
+.quiz-opt { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:.9rem 1.1rem; cursor:pointer; font-size:.9rem; text-align:left; color:var(--text); transition:all .2s; display:flex; align-items:center; gap:.75rem; }
+.quiz-opt:hover { border-color:var(--accent); color:var(--accent); }
+.quiz-opt.selected { border-color:var(--accent); background:rgba(0,229,255,.06); color:var(--accent); }
+[data-theme="light"] .quiz-opt.selected { background:rgba(0,119,204,.06); }
+.quiz-opt-icon { font-size:1.2rem; }
+.quiz-nav { display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; }
+.quiz-step { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--muted); }
+.quiz-result { display:none; }
+.quiz-result.show { display:block; }
+.result-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:2rem; margin-top:1rem; }
+.result-icon { font-size:3rem; margin-bottom:.8rem; }
+.result-card h3 { font-size:1.4rem; font-weight:800; margin-bottom:.5rem; }
+.result-why { color:var(--muted); font-size:.9rem; line-height:1.7; margin-top:.6rem; }
+.quiz-restart { margin-top:1.2rem; font-family:'Space Mono',monospace; font-size:.7rem; background:none; border:1px solid var(--border); color:var(--muted); padding:.55rem 1.1rem; border-radius:4px; cursor:pointer; transition:all .2s; }
+.quiz-restart:hover { border-color:var(--accent); color:var(--accent); }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li><li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li><li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li><li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li><li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / Quiz</p>
+    <h1>🎯 Qual IA é pra você?</h1>
+    <p>4 perguntas rápidas para descobrir a IA perfeita para o seu perfil e uso.</p>
+  </div>
+  <div class="quiz-wrap">
+    <div class="quiz-box">
+      <div class="quiz-prog" id="quizProg">
+        <div class="quiz-prog-dot"></div><div class="quiz-prog-dot"></div>
+        <div class="quiz-prog-dot"></div><div class="quiz-prog-dot"></div>
+      </div>
+      <div id="quizBody">
+        <p class="quiz-q" id="quizQ"></p>
+        <div class="quiz-opts" id="quizOpts"></div>
+        <div class="quiz-nav">
+          <span class="quiz-step" id="quizStep"></span>
+          <button class="btn btn-primary" id="quizNext" style="display:none">Próximo →</button>
+        </div>
+      </div>
+      <div class="quiz-result" id="quizResult">
+        <div class="result-card" id="resultCard"></div>
+        <button class="quiz-restart" id="quizRestart">↺ Refazer Quiz</button>
+        <div style="margin-top:1rem;"><a href="ias.html" class="btn btn-secondary btn-sm">Ver todas as IAs →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p><a href="../index.html">← Voltar ao Início</a></p>
+</footer>
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+const questions=[
+  {q:'Qual é o seu principal objetivo ao usar IA?',
+   opts:[{i:'💻',t:'Escrever e revisar código',k:'code'},{i:'✍️',t:'Criar textos e conteúdo',k:'text'},{i:'🎨',t:'Gerar imagens e artes',k:'image'},{i:'🔍',t:'Pesquisar informações',k:'search'}]},
+  {q:'Você prefere pagar ou usar gratuitamente?',
+   opts:[{i:'🆓',t:'Somente grátis!',k:'free'},{i:'💰',t:'Topo pagar se valer',k:'paid'},{i:'🎓',t:'Sou estudante',k:'student'},{i:'🔥',t:'Quero o melhor, seja lá o preço',k:'best'}]},
+  {q:'Em qual área você trabalha ou estuda?',
+   opts:[{i:'🖥️',t:'Tecnologia / Programação',k:'tech'},{i:'🎭',t:'Design / Criativo / Arte',k:'creative'},{i:'📊',t:'Negócios / Marketing',k:'business'},{i:'📚',t:'Educação / Pesquisa',k:'edu'}]},
+  {q:'O que mais importa em uma IA pra você?',
+   opts:[{i:'⚡',t:'Velocidade e praticidade',k:'speed'},{i:'🎯',t:'Precisão máxima',k:'accuracy'},{i:'🌐',t:'Informações em tempo real',k:'realtime'},{i:'🔓',t:'Liberdade / sem restrições',k:'freedom'}]},
+];
+const results={
+  dev_free:{i:'💻',n:'GitHub Copilot',w:'Dev + grátis = Copilot! Como estudante, você pega grátis via GitHub Student Pack. Integra direto no VSCode e turbina seu código em tempo real.'},
+  dev_paid:{i:'🟠',n:'Claude (Anthropic)',w:'Para desenvolvimento sério, Claude é #1 em código. Contexto de 200K tokens, raciocínio técnico excepcional e precisão. O Pro vale cada centavo.'},
+  image:{i:'🎨',n:'Midjourney',w:'Para imagens artísticas, Midjourney é inigualável. Se quiser 100% grátis, Stable Diffusion roda local no seu PC.'},
+  search:{i:'🔍',n:'Perplexity AI',w:'Para pesquisa com fontes reais, Perplexity é perfeito. Gratuito, sempre cita fontes e tem dados em tempo real. Ótimo para trabalhos acadêmicos.'},
+  opensource:{i:'🦙',n:'Llama 3.3 (Meta)',w:'Você quer liberdade! Llama é open-source, 100% grátis, roda local sem censura. Instale via Ollama no seu PC em minutos.'},
+  realtime:{i:'⚡',n:'Grok (xAI)',w:'Para dados em tempo real e tendências do X/Twitter, Grok é imbatível. Informações fresquinhas direto das redes sociais.'},
+  general:{i:'🟢',n:'ChatGPT (GPT-5)',w:'Para uso geral equilibrado, ChatGPT ainda lidera. O free já resolve bastante, e o Plus ($20/mês) vale para quem usa intensamente.'},
+};
+let curQ=0,answers=[];
+function renderQuiz(){
+  const q=questions[curQ];
+  document.getElementById('quizQ').textContent=q.q;
+  document.getElementById('quizOpts').innerHTML=q.opts.map(o=>
+    `<button class="quiz-opt" data-key="${o.k}"><span class="quiz-opt-icon">${o.i}</span>${o.t}</button>`
+  ).join('');
+  document.getElementById('quizStep').textContent=`${curQ+1} / ${questions.length}`;
+  document.getElementById('quizNext').style.display='none';
+  document.querySelectorAll('.quiz-prog-dot').forEach((d,i)=>d.classList.toggle('done',i<curQ));
+  document.querySelectorAll('.quiz-opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[curQ]=btn.dataset.key;
+      document.getElementById('quizNext').style.display='inline-block';
+    });
+  });
+}
+document.getElementById('quizNext').addEventListener('click',()=>{
+  if(!answers[curQ])return;
+  curQ++;
+  if(curQ<questions.length){renderQuiz();}else{showResult();}
+});
+function showResult(){
+  document.getElementById('quizBody').style.display='none';
+  document.querySelectorAll('.quiz-prog-dot').forEach(d=>d.classList.add('done'));
+  let r;
+  if(answers.includes('image')||answers.includes('creative'))r=results.image;
+  else if(answers.includes('freedom'))r=results.opensource;
+  else if(answers.includes('realtime'))r=results.realtime;
+  else if(answers.includes('search')||answers.includes('edu'))r=results.search;
+  else if((answers.includes('code')||answers.includes('tech'))&&(answers.includes('free')||answers.includes('student')))r=results.dev_free;
+  else if(answers.includes('code')||answers.includes('tech'))r=results.dev_paid;
+  else r=results.general;
+  document.getElementById('resultCard').innerHTML=`<div class="result-icon">${r.i}</div><h3>Sua IA ideal: ${r.n}</h3><p class="result-why">${r.w}</p>`;
+  document.getElementById('quizResult').classList.add('show');
+}
+document.getElementById('quizRestart').addEventListener('click',()=>{
+  curQ=0;answers=[];
+  document.getElementById('quizResult').classList.remove('show');
+  document.getElementById('quizBody').style.display='block';
+  renderQuiz();
+});
+renderQuiz();
+</script>
+</body>
+</html>
