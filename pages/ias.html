@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Catálogo de IAs — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li>
+    <li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li>
+    <li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li>
+    <li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / Catálogo</p>
+    <h1>🤖 Catálogo de IAs</h1>
+    <p>20+ IAs catalogadas com detalhes, pros, contras e votação. Filtre por categoria e vote na sua favorita!</p>
+  </div>
+
+  <div class="search-wrap" style="padding-top:2rem;">
+    <div class="search-input-wrap">
+      <span>🔎</span>
+      <input id="searchInput" class="search-input" type="text" placeholder="Buscar por nome ou categoria..."/>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">Todas</button>
+    <button class="filter-btn" data-filter="texto">💬 Texto</button>
+    <button class="filter-btn" data-filter="código">💻 Código</button>
+    <button class="filter-btn" data-filter="imagem">🎨 Imagem</button>
+    <button class="filter-btn" data-filter="vídeo">🎬 Vídeo</button>
+    <button class="filter-btn" data-filter="pesquisa">🔍 Pesquisa</button>
+    <button class="filter-btn" data-filter="voz">🎙️ Voz</button>
+    <button class="filter-btn" data-filter="open-source">🟢 Open Source</button>
+  </div>
+
+  <div class="grid-3" id="aiGrid"></div>
+  <div class="no-results" id="noResults"><p>😅 Nenhuma IA encontrada. Tente outro termo!</p></div>
+</div>
+
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p>v3.0 · <span>2026</span></p>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal"><button class="modal-close" id="modalClose">✕</button><div id="modalContent"></div></div>
+</div>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderCards(AI_DATA, 'aiGrid');
+  let activeFilter = 'all';
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+  document.getElementById('searchInput').addEventListener('input', applyFilters);
+  function applyFilters() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    let found = 0;
+    document.querySelectorAll('.ai-card').forEach(card => {
+      const name = card.dataset.name || '';
+      const cats = card.dataset.cats || '';
+      const show = (activeFilter === 'all' || cats.includes(activeFilter)) && (!q || name.includes(q) || cats.includes(q));
+      card.classList.toggle('hidden', !show);
+      if (show) found++;
+    });
+    document.getElementById('noResults').classList.toggle('show', found === 0);
+  }
+});
+</script>
+</body>
+</html>

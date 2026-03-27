@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Glossário de IA — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<style>
+.gloss-wrap { padding:2rem 5vw 5rem; }
+.gloss-search-wrap { position:relative; max-width:420px; margin-bottom:1.5rem; }
+.gloss-search-wrap span { position:absolute; left:.9rem; top:50%; transform:translateY(-50%); color:var(--muted); }
+.gloss-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
+.gloss-item { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1.2rem; transition:border-color .2s; }
+.gloss-item:hover { border-color:var(--accent3); }
+.gloss-term { font-size:1rem; font-weight:800; color:var(--accent); margin-bottom:.35rem; }
+.gloss-def { color:var(--muted); font-size:.84rem; line-height:1.62; }
+.gloss-count { font-family:'Space Mono',monospace; font-size:.65rem; color:var(--muted); margin-bottom:1.5rem; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li><li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li><li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li><li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li><li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / Glossário</p>
+    <h1>📖 Glossário de IA</h1>
+    <p>Os principais termos do mundo da Inteligência Artificial explicados em português simples.</p>
+  </div>
+  <div class="gloss-wrap">
+    <div class="gloss-search-wrap">
+      <span>🔎</span>
+      <input class="search-input" id="glossSearch" type="text" placeholder="Buscar termo..." style="padding-left:2.4rem;"/>
+    </div>
+    <p class="gloss-count" id="glossCount"></p>
+    <div class="gloss-grid" id="glossGrid"></div>
+  </div>
+</div>
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p><a href="../index.html">← Voltar ao Início</a></p>
+</footer>
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+function renderGloss(terms){
+  document.getElementById('glossGrid').innerHTML=terms.map(g=>`
+    <div class="gloss-item"><div class="gloss-term">${g.t}</div><div class="gloss-def">${g.d}</div></div>
+  `).join('');
+  document.getElementById('glossCount').textContent=`${terms.length} termos encontrados`;
+}
+renderGloss(GLOSS_TERMS);
+document.getElementById('glossSearch').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  renderGloss(q?GLOSS_TERMS.filter(g=>g.t.toLowerCase().includes(q)||g.d.toLowerCase().includes(q)):GLOSS_TERMS);
+});
+</script>
+</body>
+</html>

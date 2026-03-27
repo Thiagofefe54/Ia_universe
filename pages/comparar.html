@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Comparar IAs — AI Universe</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<style>
+.cmp-wrap { padding:2rem 5vw 5rem; overflow-x:auto; }
+.cmp-table { width:100%; border-collapse:collapse; min-width:600px; }
+.cmp-table th { background:var(--surface); padding:.9rem; font-family:'Space Mono',monospace; font-size:.65rem; letter-spacing:.07em; color:var(--muted); border-bottom:1px solid var(--border); text-align:center; }
+.cmp-table th:first-child { text-align:left; min-width:160px; }
+.cmp-table td { padding:.8rem .9rem; border-bottom:1px solid var(--border); font-size:.83rem; text-align:center; background:var(--card); transition:background .15s; }
+.cmp-table td:first-child { text-align:left; font-weight:700; }
+.cmp-table tr:hover td { background:var(--surface); }
+.cmp-note { margin-top:1rem; font-family:'Space Mono',monospace; font-size:.62rem; color:var(--muted); padding:0 5vw; }
+.legend { display:flex; gap:1rem; flex-wrap:wrap; padding:0 5vw 2rem; }
+.legend-item { display:flex; align-items:center; gap:.4rem; font-family:'Space Mono',monospace; font-size:.65rem; color:var(--muted); }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <a href="../index.html" class="nav-logo">AI_UNIVERSE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Início</a></li>
+    <li><a href="ias.html">IAs</a></li>
+    <li><a href="historia.html">História</a></li>
+    <li><a href="comparar.html">Comparar</a></li>
+    <li><a href="como-funciona.html">Como Funciona</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calculadora.html">Calculadora</a></li>
+    <li><a href="glossario.html">Glossário</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+
+<div class="page-content">
+  <div class="page-hero">
+    <p class="breadcrumb"><a href="../index.html">Início</a> / Comparar</p>
+    <h1>⚖️ Comparar IAs</h1>
+    <p>Análise lado a lado das principais IAs em categorias chave. Escolha a certa para cada tarefa.</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="score s">S</span> Excepcional</div>
+    <div class="legend-item"><span class="score a">A</span> Ótimo</div>
+    <div class="legend-item"><span class="score b">B</span> Bom</div>
+    <div class="legend-item"><span class="score c">C</span> Básico</div>
+  </div>
+
+  <div class="cmp-wrap">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>IA</th>
+          <th>Texto</th>
+          <th>Código</th>
+          <th>Imagem</th>
+          <th>Pesquisa</th>
+          <th>Raciocínio</th>
+          <th>Open Source</th>
+          <th>Preço</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🟢 ChatGPT / GPT-5</td><td><span class="score s">S</span></td><td><span class="score a">A</span></td><td><span class="score a">A</span></td><td><span class="score b">B</span></td><td><span class="score s">S</span></td><td>❌</td><td><span class="badge-free">Free</span> / $20</td></tr>
+        <tr><td>🟠 Claude Sonnet/Opus</td><td><span class="score s">S</span></td><td><span class="score s">S</span></td><td><span class="score c">C</span></td><td><span class="score b">B</span></td><td><span class="score s">S</span></td><td>❌</td><td><span class="badge-free">Free</span> / $20</td></tr>
+        <tr><td>🔵 Gemini Pro</td><td><span class="score a">A</span></td><td><span class="score b">B</span></td><td><span class="score b">B</span></td><td><span class="score s">S</span></td><td><span class="score a">A</span></td><td>❌</td><td><span class="badge-free">Free</span> / $20</td></tr>
+        <tr><td>🦙 Llama 3.3</td><td><span class="score a">A</span></td><td><span class="score a">A</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score a">A</span></td><td>✅</td><td><span class="badge-free">100% Free</span></td></tr>
+        <tr><td>🌊 Mistral Large</td><td><span class="score a">A</span></td><td><span class="score a">A</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score b">B</span></td><td>✅ parcial</td><td><span class="badge-free">Free</span> / €14</td></tr>
+        <tr><td>🐋 DeepSeek V3</td><td><span class="score a">A</span></td><td><span class="score s">S</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score s">S</span></td><td>✅</td><td><span class="badge-free">100% Free</span></td></tr>
+        <tr><td>⚡ Grok 4</td><td><span class="score a">A</span></td><td><span class="score b">B</span></td><td><span class="score b">B</span></td><td><span class="score s">S</span></td><td><span class="score b">B</span></td><td>❌</td><td><span class="badge-free">Free</span> / $16</td></tr>
+        <tr><td>🎨 Midjourney V7</td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score s">S</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td>❌</td><td><span class="badge-paid">$10/mês</span></td></tr>
+        <tr><td>🖌️ Stable Diffusion</td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score a">A</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td>✅</td><td><span class="badge-free">100% Free</span></td></tr>
+        <tr><td>💻 GitHub Copilot</td><td><span class="score c">C</span></td><td><span class="score s">S</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score a">A</span></td><td>❌</td><td><span class="badge-free">Free*</span> / $10</td></tr>
+        <tr><td>🖱️ Cursor AI</td><td><span class="score c">C</span></td><td><span class="score s">S</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score s">S</span></td><td>❌</td><td><span class="badge-free">Free</span> / $20</td></tr>
+        <tr><td>🔍 Perplexity</td><td><span class="score b">B</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score s">S</span></td><td><span class="score b">B</span></td><td>❌</td><td><span class="badge-free">Free</span> / $20</td></tr>
+        <tr><td>🎬 Runway ML</td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score a">A</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td>❌</td><td><span class="badge-free">Free</span> / $12</td></tr>
+        <tr><td>🎙️ ElevenLabs</td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td>❌</td><td><span class="badge-free">Free</span> / $5</td></tr>
+        <tr><td>💎 Gemma 3</td><td><span class="score b">B</span></td><td><span class="score b">B</span></td><td><span class="score c">C</span></td><td><span class="score c">C</span></td><td><span class="score b">B</span></td><td>✅</td><td><span class="badge-free">100% Free</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cmp-note">* Copilot gratuito para estudantes com GitHub Student Developer Pack &nbsp;|&nbsp; ElevenLabs avaliado apenas na categoria voz</p>
+
+  <div style="padding:0 5vw 5rem;margin-top:2rem;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;">
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:1.5rem;">🏆 Melhores por Categoria</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">💬 TEXTO GERAL</div><div style="font-weight:800;">ChatGPT / Claude</div></div>
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">💻 CÓDIGO</div><div style="font-weight:800;color:var(--accent);">Claude / Cursor</div></div>
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">🎨 IMAGEM</div><div style="font-weight:800;">Midjourney</div></div>
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">🔍 PESQUISA</div><div style="font-weight:800;">Perplexity / Gemini</div></div>
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">🎬 VÍDEO</div><div style="font-weight:800;">Runway / Sora</div></div>
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">🎙️ VOZ</div><div style="font-weight:800;">ElevenLabs</div></div>
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">🆓 MELHOR FREE</div><div style="font-weight:800;color:var(--green);">DeepSeek / Llama</div></div>
+        <div style="background:var(--surface);border-radius:8px;padding:1rem;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;">🎓 MELHOR ESTUDANTE</div><div style="font-weight:800;color:var(--yellow);">GitHub Copilot</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <span>AI_UNIVERSE</span></p>
+  <p><a href="../index.html">← Voltar ao Início</a></p>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>
