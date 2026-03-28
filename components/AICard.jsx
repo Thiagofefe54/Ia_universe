@@ -9,15 +9,19 @@ export default function AICard({ ai, delay = 0, onClick }) {
 
   useEffect(() => {
     setTimeout(() => setVisible(true), delay)
+    
     const v = localStorage.getItem('voted_' + ai.id)
     setVoted(!!v)
 
     async function fetchVotes() {
-      const { count } = await supabase
+      const { data, error } = await supabase
         .from('votes')
-        .select('*', { count: 'exact', head: true })
+        .select('ai_id')
         .eq('ai_id', ai.id)
-      setVotes(count || 0)
+      
+      if (!error && data) {
+        setVotes(data.length)
+      }
     }
     fetchVotes()
   }, [])
