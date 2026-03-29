@@ -1,3 +1,5 @@
+'use client'
+
 const items = [
   {flag:'🦜',name:'Sabiá-3 (Maritaca AI)',origin:'Maritaca AI · USP / Unicamp',desc:'LLM brasileiro focado em PT-BR. Supera modelos internacionais em benchmarks de língua portuguesa.'},
   {flag:'🤖',name:'BERTimbau',origin:'NLP-USP · 2020',desc:'Versão do BERT treinada em português. Usada em pesquisa acadêmica e NLP em PT-BR.'},
