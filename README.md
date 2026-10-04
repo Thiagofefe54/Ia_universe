@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AI Universe
 
-## Getting Started
+Portal em português para explorar ferramentas e conceitos de inteligência artificial.
 
-First, run the development server:
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue?style=flat-square)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**Tecnologias:** Next.js · React · JavaScript · CSS · Supabase
+
+## Proposta
+
+Reunir catálogo, comparações, história, glossário, quiz e uma calculadora ilustrativa em uma experiência acessível. **O projeto não está finalizado.** Preços, notas e percentuais são dados ilustrativos e precisam de fontes e atualização.
+
+## Versões do projeto
+
+- **Next.js:** pastas `app/`, `components/` e `lib/`. O catálogo desta versão contém dez ferramentas; os votos usam Supabase.
+- **Estática:** `index.html`, `pages/`, `css/` e `js/`. Pode ser aberta no navegador ou via Live Server; guarda votos apenas no navegador.
+
+As duas versões ainda não têm todos os dados e comportamentos alinhados.
+
+## Executar a versão Next.js
+
+Use Node.js compatível com Next.js 16 (20.9 ou superior) e npm.
+
+```sh
+git clone https://github.com/Thiagofefe54/Ia_universe.git
+cd Ia_universe
+npm ci
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Copie `.env.example` para `.env.local` e configure as variáveis antes de iniciar:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```sh
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Abra http://localhost:3000. Para verificações: `npm run lint` e `npm run build`.
 
-## Learn More
+## Supabase
 
-To learn more about Next.js, take a look at the following resources:
+O cliente espera `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` de um projeto próprio. O catálogo consulta e insere registros na tabela `votes`, usando o campo `ai_id`. A definição da tabela, migrações e políticas ainda não estão incluídas. Configure as permissões e RLS antes de disponibilizar votos. Nunca coloque uma chave `service_role` em variáveis públicas.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+A marcação de voto no navegador não impede duplicações no banco. A integração ainda precisa de validação.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Próximos passos
 
-## Deploy on Vercel
+- [ ] Definir uma versão principal e alinhar as duas implementações.
+- [ ] Documentar esquema, políticas e configuração dos votos.
+- [ ] Ajustar a quantidade anunciada de IAs ao catálogo real.
+- [ ] Revisar preços, câmbio, estatísticas e comparações com fontes e datas.
+- [ ] Melhorar acessibilidade, validações e testes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Projeto de [Thiago Feijó](https://github.com/Thiagofefe54).
